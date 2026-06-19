@@ -1,10 +1,25 @@
 # Decision Support Architecture Playbook
 
+[![CI](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml/badge.svg)](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 ## Project purpose
 
 This repository is a documentation-led architecture playbook for designing controlled reporting and decision-support systems. It shows how fragmented manual reporting can be moved toward a clearer operating model with defined data ownership, KPI definitions, data-quality controls, review routines, implementation stages, and handover material.
 
 The playbook is intended to demonstrate architecture and solution-design thinking rather than a single technical build.
+
+## Reviewer quick path
+
+If you are reviewing this quickly, start here:
+
+1. Read `docs/00-executive-brief.md`.
+2. Inspect [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) and [docs/07-operating-model.md](docs/07-operating-model.md).
+3. Review [examples/manual-reporting-transformation-example.md](examples/manual-reporting-transformation-example.md) for the applied synthetic walkthrough.
+4. Check [diagrams/README.md](diagrams/README.md) for the diagram inventory.
+5. Run `make qa` to validate required docs, diagrams, templates, and local links.
+
+Harsh limitation: this is an architecture artifact, not a production implementation. It is strongest when reviewed alongside the Python data-quality, dbt service mart, and Power BI semantic-model repos.
 
 ## Business problem
 
@@ -100,34 +115,44 @@ This is a documentation-led repo. Any examples must use generic, synthetic, non-
 
 Read the numbered documents in order:
 
-1. Problem statement.
-2. Current state.
-3. Target state.
-4. Source-to-output map.
-5. Data quality controls.
-6. KPI dictionary.
-7. Operating model.
-8. Implementation roadmap.
-9. Risks and limitations.
-10. Handover pack.
+0. [Executive brief](docs/00-executive-brief.md).
+1. [Problem statement](docs/01-problem-statement.md).
+2. [Current state](docs/02-current-state.md).
+3. [Target state](docs/03-target-state.md).
+4. [Source-to-output map](docs/04-source-to-output-map.md).
+5. [Data quality controls](docs/05-data-quality-controls.md).
+6. [KPI dictionary](docs/06-kpi-dictionary.md).
+7. [Operating model](docs/07-operating-model.md).
+8. [Implementation roadmap](docs/08-implementation-roadmap.md).
+9. [Risks and limitations](docs/09-risks-and-limitations.md).
+10. [Handover pack](docs/10-handover-pack.md).
 
-The templates folder contains reusable document structures that can support discovery, KPI definition, quality-rule design, requirements capture, and stakeholder review.
+The [templates](templates) folder contains reusable document structures that can support discovery, KPI definition, quality-rule design, requirements capture, and stakeholder review.
+
+Validation:
+
+```bash
+make qa
+```
 
 ## Outputs
 
 Current repository outputs:
 
-- problem statement for fragmented manual reporting;
-- current-state reporting flow and risk summary;
-- target-state source-to-output architecture;
-- data-quality control catalogue and escalation model;
-- KPI dictionary structure with safe synthetic examples;
-- operating model covering owners, cadence, quality responsibilities, escalation, change control, and handover;
-- implementation roadmap with staged delivery gates;
-- handover pack structure;
+- [problem statement](docs/01-problem-statement.md) for fragmented manual reporting;
+- executive brief for fast review;
+- [current-state reporting flow](docs/02-current-state.md) and risk summary;
+- [target-state source-to-output architecture](docs/03-target-state.md);
+- [data-quality control catalogue](docs/05-data-quality-controls.md) and escalation model;
+- [KPI dictionary structure](docs/06-kpi-dictionary.md) with safe synthetic examples;
+- [operating model](docs/07-operating-model.md) covering owners, cadence, quality responsibilities, escalation, change control, and handover;
+- [implementation roadmap](docs/08-implementation-roadmap.md) with staged delivery gates;
+- [handover pack structure](docs/10-handover-pack.md);
 - reusable templates for KPI definitions, reporting requirements, quality rules, and review meetings;
 - Mermaid diagrams for current state, source-to-output flow, reporting lifecycle, and assurance control loop;
+- diagram index;
 - non-client walkthrough showing how the playbook could be applied to a manual reporting process.
+- architecture decision record template.
 
 ## Commercial relevance
 
@@ -146,7 +171,6 @@ It is designed to show that credible reporting architecture is not just about pr
 
 ## Next improvements
 
-1. Preview Mermaid diagrams in GitHub to confirm layout readability.
-2. Add an architecture decision record template if future changes need formal design decisions.
-3. Add one compact example source-to-output map using the existing synthetic walkthrough.
-4. Keep the public-readiness audit current whenever major docs change.
+1. Add a compact one-page source-to-output map using the existing synthetic walkthrough.
+2. Add rendered diagram screenshots only if they are generated from the Mermaid source files.
+3. Keep the public-readiness audit current whenever major docs change.
