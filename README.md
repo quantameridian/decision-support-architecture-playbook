@@ -15,11 +15,12 @@ The playbook is intended to demonstrate architecture and solution-design thinkin
 
 If you are reviewing this quickly, start here:
 
-1. Read `docs/00-executive-brief.md`.
-2. Inspect [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) and [docs/07-operating-model.md](docs/07-operating-model.md).
-3. Review [examples/manual-reporting-transformation-example.md](examples/manual-reporting-transformation-example.md) for the applied synthetic walkthrough.
-4. Check [diagrams/README.md](diagrams/README.md) for the diagram inventory.
-5. Run `make qa` to validate required docs, diagrams, templates, and local links.
+1. Read [docs/reviewer-guide.md](docs/reviewer-guide.md).
+2. Read [docs/00-executive-brief.md](docs/00-executive-brief.md).
+3. Inspect [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) and [docs/07-operating-model.md](docs/07-operating-model.md).
+4. Review [examples/manual-reporting-transformation-example.md](examples/manual-reporting-transformation-example.md) for the applied synthetic walkthrough.
+5. Check [diagrams/README.md](diagrams/README.md) for the diagram inventory.
+6. Run `make qa` to validate required docs, diagrams, templates, and local links.
 
 Harsh limitation: this is an architecture artifact, not a production implementation. It is strongest when reviewed alongside the Python data-quality, dbt service mart, and Power BI semantic-model repos.
 
@@ -64,6 +65,17 @@ Secondary readers:
 - Operating-model and handover planning.
 - Risk-based implementation sequencing.
 - Practical documentation for stakeholder review.
+
+## Skills demonstrated
+
+| Skill | Where to inspect |
+| --- | --- |
+| Reporting architecture | [docs/02-current-state.md](docs/02-current-state.md), [docs/03-target-state.md](docs/03-target-state.md), and [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) |
+| Operating-model design | [docs/07-operating-model.md](docs/07-operating-model.md) |
+| Data-quality control design | [docs/05-data-quality-controls.md](docs/05-data-quality-controls.md) and [templates/data-quality-rule-template.md](templates/data-quality-rule-template.md) |
+| KPI governance | [docs/06-kpi-dictionary.md](docs/06-kpi-dictionary.md) and [templates/kpi-definition-template.md](templates/kpi-definition-template.md) |
+| Stakeholder handover | [docs/10-handover-pack.md](docs/10-handover-pack.md) and [templates/stakeholder-review-template.md](templates/stakeholder-review-template.md) |
+| Security-aware public repo practice | [docs/security-posture.md](docs/security-posture.md), CI, CodeQL, Scorecard, and document redaction rules |
 
 ## Architecture concept
 

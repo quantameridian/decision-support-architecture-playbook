@@ -11,6 +11,7 @@ REPORT_PATH = Path("docs/validation-report.md")
 REQUIRED_FILES = [
     Path("README.md"),
     Path("docs/00-executive-brief.md"),
+    Path("docs/reviewer-guide.md"),
     Path("docs/01-problem-statement.md"),
     Path("docs/02-current-state.md"),
     Path("docs/03-target-state.md"),
