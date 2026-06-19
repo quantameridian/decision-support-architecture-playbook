@@ -1,0 +1,11 @@
+flowchart LR
+    A["Operational trackers and extracts"] --> B["Manual export or copy"]
+    B --> C["Local spreadsheets"]
+    C --> D["Manual corrections and formulas"]
+    D --> E["Dashboard or management pack"]
+    E --> F["Review meeting"]
+    F --> G["Informal action follow-up"]
+    C -. "KPI logic hidden in workbook tabs" .-> E
+    D -. "Limited audit trail" .-> E
+    G -. "Corrections by email or spreadsheet" .-> C
+    E -. "Caveats unclear or inconsistent" .-> F

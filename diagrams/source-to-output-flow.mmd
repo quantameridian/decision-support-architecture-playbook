@@ -1,0 +1,14 @@
+flowchart LR
+    A["Owned source data"] --> B["Extract with cut-off date"]
+    B --> C["Landing or staging area"]
+    C --> D["Quality checks"]
+    D --> E{"Reporting readiness"}
+    E -- "Ready or caveated" --> F["Transformation layer"]
+    E -- "Review required" --> G["Exception register"]
+    G --> H["Owner correction or accepted caveat"]
+    H --> D
+    F --> I["Semantic/reporting model"]
+    I --> J["Management output"]
+    J --> K["Review and action log"]
+    K --> L["Rule or source updates"]
+    L --> D

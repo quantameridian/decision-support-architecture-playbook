@@ -1,0 +1,12 @@
+flowchart LR
+    A["Confirm decision question"] --> B["Approve KPI definitions"]
+    B --> C["Map sources and owners"]
+    C --> D["Run quality checkpoints"]
+    D --> E{"Output ready?"}
+    E -- "Ready or caveated" --> F["Refresh model and publish"]
+    E -- "Not ready" --> G["Escalate exceptions"]
+    G --> D
+    F --> H["Review decisions and actions"]
+    H --> I["Update action log and handover"]
+    I --> J["Review definitions and controls"]
+    J --> C

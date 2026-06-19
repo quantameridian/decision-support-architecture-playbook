@@ -1,0 +1,11 @@
+flowchart LR
+    A["Source owner confirms correction"] --> B["Rule catalogue"]
+    B --> C["Quality checks"]
+    C --> D["Exception register"]
+    D --> E{"Ready for reporting?"}
+    E -- "Ready or caveated" --> F["Publish output"]
+    E -- "Review required" --> G["Escalate to decision owner"]
+    G --> H["Owner correction action"]
+    H --> C
+    F --> I["Review outcomes and rule changes"]
+    I --> B
