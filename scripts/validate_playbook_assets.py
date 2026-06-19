@@ -21,6 +21,7 @@ REQUIRED_FILES = [
     Path("docs/08-implementation-roadmap.md"),
     Path("docs/09-risks-and-limitations.md"),
     Path("docs/10-handover-pack.md"),
+    Path("docs/security-posture.md"),
     Path("diagrams/README.md"),
     Path("templates/architecture-decision-record-template.md"),
     Path("templates/data-quality-rule-template.md"),

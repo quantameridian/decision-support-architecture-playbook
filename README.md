@@ -1,6 +1,8 @@
 # Decision Support Architecture Playbook
 
 [![CI](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml/badge.svg)](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/codeql.yml/badge.svg)](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/quantameridian/decision-support-architecture-playbook/badge)](https://scorecard.dev/viewer/?uri=github.com/quantameridian/decision-support-architecture-playbook)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ## Project purpose
@@ -134,6 +136,8 @@ Validation:
 ```bash
 make qa
 ```
+
+Security posture, public-document redaction rules, and information-leakage boundaries are documented in [docs/security-posture.md](docs/security-posture.md).
 
 ## Outputs
 
