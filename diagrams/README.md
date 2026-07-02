@@ -9,6 +9,7 @@ They should remain simple enough to review directly in GitHub.
 | [source-to-output-flow.mmd](source-to-output-flow.mmd) | Shows the target source-to-output control route |
 | [reporting-lifecycle.mmd](reporting-lifecycle.mmd) | Shows the recurring reporting and review cycle |
 | [assurance-control-loop.mmd](assurance-control-loop.mmd) | Shows how data-quality checks feed correction and escalation |
+| [security-boundary.mmd](security-boundary.mmd) | Shows public, controlled, and restricted reporting boundaries |
 
 ## Review rule
 

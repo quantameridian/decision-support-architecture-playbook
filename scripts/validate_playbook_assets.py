@@ -22,8 +22,10 @@ REQUIRED_FILES = [
     Path("docs/08-implementation-roadmap.md"),
     Path("docs/09-risks-and-limitations.md"),
     Path("docs/10-handover-pack.md"),
+    Path("docs/11-security-architecture.md"),
     Path("docs/security-posture.md"),
     Path("diagrams/README.md"),
+    Path("examples/architecture-decision-record-example.md"),
     Path("templates/architecture-decision-record-template.md"),
     Path("templates/data-quality-rule-template.md"),
     Path("templates/kpi-definition-template.md"),
@@ -36,6 +38,7 @@ REQUIRED_DIAGRAMS = [
     Path("diagrams/source-to-output-flow.mmd"),
     Path("diagrams/reporting-lifecycle.mmd"),
     Path("diagrams/assurance-control-loop.mmd"),
+    Path("diagrams/security-boundary.mmd"),
 ]
 
 LOCAL_LINK_RE = re.compile(r"\[[^\]]+\]\((?!https?://|mailto:|#)([^)#]+)(?:#[^)]+)?\)")
