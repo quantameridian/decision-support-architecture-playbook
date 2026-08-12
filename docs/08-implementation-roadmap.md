@@ -48,7 +48,7 @@ Counts reconcile at every boundary. Approved KPI results match independent evide
 **Work**
 
 - Integrate managed identity and service area mappings.
-- Run allowed, multi-area, unmapped and revoked identity tests.
+- Run tests for allowed, unmapped and revoked identities, including access to several areas.
 - Exercise refresh recovery from retained evidence.
 - Measure report performance at pilot and forecast volumes.
 - Test applicable WCAG 2.2 AA behaviour and the equivalent tabular route.

@@ -54,4 +54,4 @@ A suspected integrity or confidentiality incident blocks normal publication unti
 
 ## Assurance Boundary
 
-This threat analysis establishes context and candidate treatments. It is not a penetration test, privacy assessment or formal accreditation. Platform selection must add product specific attack paths, logging coverage, data location, supplier access, patching, vulnerability management and incident integration.
+This threat analysis establishes context and possible treatments. It is not a penetration test, privacy assessment or formal accreditation. Platform selection must add product specific attack paths, logging coverage, data location, supplier access, patching, vulnerability management and incident integration.

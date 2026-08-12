@@ -2,7 +2,7 @@
 
 This project uses a simple professional conduct standard.
 
-Participants should be respectful, evidence-led, and constructive. Do not submit
+Participants should be respectful, guided by evidence, and constructive. Do not submit
 or request real client data, protected information, credentials, or material that
 the contributor does not have the right to share.
 

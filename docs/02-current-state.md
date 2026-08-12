@@ -12,7 +12,7 @@ flowchart LR
     Email -. "corrections" .-> Workbook
 ```
 
-The standalone source is [current-state-flow.mmd](../diagrams/current-state-flow.mmd).
+The standalone source is the [current flow diagram](../diagrams/current-state-flow.mmd).
 
 ## Responsibilities Today
 

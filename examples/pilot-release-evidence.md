@@ -1,6 +1,6 @@
 # Pilot Release Evidence
 
-This is a filled synthetic evidence record for the June 2026 Operations Review Service cycle. It demonstrates the shape of a release decision. It is not a record from a real organisation or system.
+This is a filled synthetic evidence record for the June 2026 Operations Review Service cycle. It shows the shape of a release decision. It is not a record from a real organisation or system.
 
 ## Cycle Identity
 
@@ -32,7 +32,7 @@ The receipt evidence would include the file checksum, source timestamp, receipt 
 | `CTL-02` Schema and key validation | Pass | Required columns and unique item IDs confirmed |
 | `CTL-03` Reporting readiness gate | Caveat accepted | Seven records have at least one readiness issue |
 | `CTL-04` Governed measure catalogue | Pass | 24 reference KPI results reconcile |
-| `CTL-05` Dynamic service area access | Pass | Allowed, multi-area and denied identity cases pass |
+| `CTL-05` Dynamic service area access | Pass | Allowed, denied and several area identity cases pass |
 | `CTL-06` Release field review | Pass | No excluded personal or special category fields found |
 
 ## Accepted Caveat
@@ -79,4 +79,4 @@ Publication is approved as `Ready with caveat`. The report must show the readine
 
 ## Evidence Boundary
 
-This example demonstrates evidence design only. No pipeline ran, no identity provider was queried and no report was published for this repository. The figures align with the synthetic Power BI example, but this repository does not depend on that implementation.
+This example shows evidence design only. No pipeline ran, no identity provider was queried and no report was published for this repository. The figures align with the synthetic Power BI example, but this repository does not depend on that implementation.
