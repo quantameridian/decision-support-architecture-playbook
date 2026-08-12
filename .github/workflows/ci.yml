@@ -13,8 +13,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
           python-version: "3.11"
-      - name: Validate architecture playbook assets
-        run: make test PYTHON=python
+          cache: pip
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install validation tools
+        run: make install PYTHON=python
+      - name: Validate architecture and evidence
+        run: make qa PYTHON=python
+      - name: Confirm generated evidence is current
+        run: git diff --exit-code -- docs/validation-report.md

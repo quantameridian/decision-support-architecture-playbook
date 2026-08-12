@@ -1,39 +1,41 @@
-# Architecture Decision Record
+# ADR-NNN: Decision Title
 
-## Decision
-
-Describe the architecture decision in one or two sentences.
-
-## Status
-
-Proposed / Accepted / Superseded / Rejected
+| Field | Value |
+| --- | --- |
+| Status | Proposed / Accepted / Rejected / Superseded |
+| Date | YYYY-MM-DD |
+| Owner | Accountable role |
+| Decision roles | Roles required to accept the decision |
+| Requirements | Requirement IDs affected |
+| Risks | Risk IDs affected |
+| Supersedes | ADR ID or Not applicable |
 
 ## Context
 
-Explain the reporting, data, stakeholder, or control problem that forced a
-decision.
+State the forces that make a decision necessary. Include relevant business outcome, constraint, scale, sensitivity, existing standard and failure consequence.
 
-## Options Considered
+## Options
 
-| Option | Benefit | Risk |
-| --- | --- | --- |
-| Option A |  |  |
-| Option B |  |  |
+| Option | Benefit | Cost and risk | Evidence considered |
+| --- | --- | --- | --- |
+|  |  |  |  |
 
-## Chosen Approach
+Record credible alternatives, including continuation of the current state where relevant.
 
-Explain what will be done and where it will be documented or implemented.
+## Decision
+
+State one decision in clear terms. Name the affected boundary, responsibility or contract. Do not hide unresolved choices inside the decision text.
 
 ## Consequences
 
-| Area | Impact |
-| --- | --- |
-| Source data |  |
-| Transformation logic |  |
-| Semantic/reporting layer |  |
-| Operating model |  |
-| Handover |  |
+Describe positive, negative and operational consequences. Include new ownership, cost, coupling, migration, security, recovery and support effects where material.
 
-## Review Trigger
+## Verification
 
-State what would cause this decision to be revisited.
+| Acceptance check | Owner | Evidence | Status |
+| --- | --- | --- | --- |
+|  |  |  | Not run / Pass / Fail |
+
+## Review Triggers
+
+List observable changes that require a new decision. Accepted records remain unchanged; a replacement ADR supersedes them.

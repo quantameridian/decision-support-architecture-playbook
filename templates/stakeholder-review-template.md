@@ -1,79 +1,43 @@
-# Stakeholder Review Template
+# Decision Review Record
 
-Use this template to record a review of reporting requirements, KPI definitions, data quality, or management outputs.
+## Review Identity
 
-## 1. Review Details
-
-| Field | Detail |
+| Field | Value |
 | --- | --- |
-| Review title |  |
-| Review date |  |
-| Review forum |  |
-| Chair / decision owner |  |
-| Report owner |  |
-| Notes owner |  |
-| Reporting period covered |  |
+| Service and cycle |  |
+| Review date and forum |  |
+| Decision owner |  |
+| Report version |  |
+| Readiness result | Ready / Ready with caveat / Not ready |
 
-## 2. Attendees
+## Evidence Reviewed
 
-| Name or role | Area represented | Required for decision? | Attended? |
+| Evidence | Version or cycle | Owner | Result |
 | --- | --- | --- | --- |
-|  |  | Yes / No | Yes / No |
-
-## 3. Artefacts Reviewed
-
-| Artefact | Version/date | Owner | Review purpose |
-| --- | --- | --- | --- |
-| Source-to-output map |  |  |  |
+| Source receipt |  |  |  |
+| Quality result |  |  |  |
 | KPI definition |  |  |  |
-| Data quality summary |  |  |  |
-| Dashboard/report output |  |  |  |
-| Exception register |  |  |  |
+| Access test |  |  |  |
+| Management output |  |  |  |
 
-## 4. Key Findings
+## Caveats And Risks
 
-| Finding | Evidence | Impact | Owner |
-| --- | --- | --- | --- |
-|  |  |  |  |
-
-## 5. Decisions Made
-
-| Decision | Rationale | Decision owner | Effective from |
-| --- | --- | --- | --- |
-|  |  |  |  |
-
-## 6. Data Quality and Caveats
-
-| Issue | Severity | Affected KPI/output | Action agreed | Owner | Due date |
-| --- | --- | --- | --- | --- | --- |
-|  | High / Medium / Low |  |  |  |  |
-
-## 7. Actions
-
-| Action ID | Action | Owner | Due date | Success evidence | Status |
-| --- | --- | --- | --- | --- | --- |
-|  |  |  |  |  | Open / in progress / closed |
-
-## 8. Escalations
-
-| Escalation | Reason | Escalated to | Needed by | Status |
+| Issue | Affected decision or KPI | Severity | Owner | Expiry or review date |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
-## 9. Handover or Documentation Updates
+## Decisions
 
-| Document or artefact | Update needed | Owner | Due date |
-| --- | --- | --- | --- |
-| KPI dictionary |  |  |  |
-| Source-to-output map |  |  |  |
-| Data quality rule catalogue |  |  |  |
-| Handover pack |  |  |  |
+| ID | Decision | Rationale and evidence | Decision owner | Effective date |
+| --- | --- | --- | --- | --- |
+|  |  |  |  |  |
 
-## 10. Next Review
+## Actions
 
-| Field | Detail |
-| --- | --- |
-| Next review date |  |
-| Required pre-work |  |
-| Items to revisit |  |
-| Distribution list |  |
+| ID | Action | Owner | Due | Success evidence | Status |
+| --- | --- | --- | --- | --- | --- |
+|  |  |  |  |  | Open / Closed |
+
+## Follow Through
+
+Record changes required to source, KPI definition, quality rule, risk, ADR, runbook or access mapping. Set the next review and name the prework owner.

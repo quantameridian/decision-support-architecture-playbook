@@ -1,0 +1,566 @@
+service:
+  id: OPR
+  name: Operations Review Service
+  status: proposed
+  scenario: synthetic
+  purpose: Give service managers a controlled monthly view of workload, SLA performance and data readiness.
+  decision_owner: Decision Owner
+  service_owner: Service Owner
+  information_classification: Official
+  reporting_timezone: Europe/London
+  recovery:
+    rto_hours: 8
+    rpo_hours: 24
+
+role_assignments:
+  Decision Owner: Director of Operations
+  Service Owner: Head of Service Performance
+
+roles:
+  Decision Owner: Owns the management forum, priorities and material business caveats.
+  Service Owner: Owns end to end operation, recovery, evidence retention and service risk.
+  Information Owner: Owns classification, permitted data, retention and information risk.
+  Source Owner: Owns authoritative record meaning, quality and delivery.
+  Platform Owner: Owns controlled receipt, runtime platform and service identities.
+  KPI Owner: Owns measure definition, target and interpretation.
+  Reporting Assurance Owner: Owns quality rules, severity and readiness decisions.
+  Analytics Engineering Owner: Owns reporting data contracts, transformation and lineage.
+  BI Owner: Owns the semantic model, report implementation and performance.
+  Security Owner: Owns threat treatment, security assurance and security risk.
+  Identity Owner: Owns authentication integration, group lifecycle and revocation.
+  Report Owner: Owns cycle coordination, publication and visible caveats.
+
+principles:
+  - id: AP-01
+    statement: Start with the management decision and accountable owner.
+  - id: AP-02
+    statement: Keep one governed definition for each KPI.
+  - id: AP-03
+    statement: Reject or disclose material quality failures before publication.
+  - id: AP-04
+    statement: Grant access by identity and business need.
+  - id: AP-05
+    statement: Preserve evidence for every published reporting cycle.
+  - id: AP-06
+    statement: Prefer replaceable components and open exchange formats.
+
+requirements:
+  - id: BR-01
+    category: business
+    statement: Publish the monthly review pack by 09:00 on the third working day.
+    priority: must
+    owner: Report Owner
+    acceptance: A timestamped publication record is present for the cycle.
+  - id: BR-02
+    category: business
+    statement: Show current workload, historical backlog, SLA performance and data readiness from governed definitions.
+    priority: must
+    owner: KPI Owner
+    acceptance: The approved measures appear in the management output and reconcile to the semantic model.
+  - id: BR-03
+    category: business
+    statement: Record each decision and action with an owner and due date.
+    priority: must
+    owner: Decision Owner
+    acceptance: Review minutes contain a decision log and no open action lacks an owner or due date.
+  - id: NFR-01
+    category: availability
+    statement: Recover the reporting service within eight business hours of a failed scheduled refresh.
+    priority: must
+    owner: Service Owner
+    acceptance: The recovery exercise completes inside the stated RTO.
+  - id: NFR-02
+    category: data_freshness
+    statement: Use source data no more than 24 hours older than the agreed cut off.
+    priority: must
+    owner: Source Owner
+    acceptance: The source receipt and cut off timestamps differ by no more than 24 hours.
+  - id: NFR-03
+    category: security
+    statement: Restrict detailed operational records by service area and deny access to unmapped identities.
+    priority: must
+    owner: Security Owner
+    acceptance: Positive and negative role tests pass before release.
+  - id: NFR-04
+    category: audit
+    statement: Retain source receipt, quality result, approval, publication and decision evidence for 13 months.
+    priority: must
+    owner: Information Owner
+    acceptance: A sampled cycle can be reconstructed from retained evidence.
+  - id: NFR-05
+    category: performance
+    statement: Return the executive summary within five seconds at the agreed pilot volume.
+    priority: should
+    owner: BI Owner
+    acceptance: The 95th percentile render time is five seconds or less across the acceptance script.
+  - id: NFR-06
+    category: privacy
+    statement: Exclude special category data and direct personal contact details from the reporting model.
+    priority: must
+    owner: Information Owner
+    acceptance: The approved field inventory and release scan contain no excluded fields.
+  - id: NFR-07
+    category: accessibility
+    statement: Meet WCAG 2.2 AA for applicable report interactions and provide an equivalent tabular route.
+    priority: must
+    owner: Report Owner
+    acceptance: Automated and manual accessibility review finds no critical or serious issue.
+  - id: NFR-08
+    category: observability
+    statement: Detect and notify the accountable owner of a material reporting stage failure within 15 minutes.
+    priority: must
+    owner: Service Owner
+    acceptance: Synthetic failures at receipt, quality, load, refresh and publication raise the expected alert within 15 minutes.
+
+components:
+  - id: CMP-01
+    name: Operational Work System
+    type: external_system
+    zone: source
+    owner: Source Owner
+    data_classification: Official
+    responsibilities:
+      - Maintain the authoritative work item record.
+      - Produce the agreed daily extract.
+  - id: CMP-02
+    name: Controlled Landing Store
+    type: data_store
+    zone: controlled_data
+    owner: Platform Owner
+    data_classification: Official
+    responsibilities:
+      - Receive immutable source extracts.
+      - Record checksum, source timestamp and receipt timestamp.
+  - id: CMP-03
+    name: Quality Gate
+    type: batch_service
+    zone: processing
+    owner: Reporting Assurance Owner
+    data_classification: Official
+    responsibilities:
+      - Validate schema, keys, references, dates and evidence fields.
+      - Produce a readiness result and controlled exception records.
+  - id: CMP-04
+    name: Reporting Mart
+    type: data_store
+    zone: reporting
+    owner: Analytics Engineering Owner
+    data_classification: Official
+    responsibilities:
+      - Publish tested facts and dimensions at declared grains.
+      - Preserve model lineage and load metadata.
+  - id: CMP-05
+    name: Semantic Model
+    type: analytics_service
+    zone: reporting
+    owner: BI Owner
+    data_classification: Official
+    responsibilities:
+      - Hold governed measures and date behaviour.
+      - Enforce service area access filtering.
+  - id: CMP-06
+    name: Management Report
+    type: user_interface
+    zone: consumption
+    owner: Report Owner
+    data_classification: Official
+    responsibilities:
+      - Present performance with quality caveats.
+      - Expose record detail only to authorised users.
+  - id: CMP-07
+    name: Decision and Action Register
+    type: workflow_service
+    zone: governance
+    owner: Decision Owner
+    data_classification: Official
+    responsibilities:
+      - Record decisions, actions, owners and due dates.
+      - Feed control and requirement changes into governance.
+  - id: CMP-08
+    name: Evidence Store
+    type: data_store
+    zone: governance
+    owner: Service Owner
+    data_classification: Official
+    responsibilities:
+      - Retain reporting cycle evidence for 13 months.
+      - Support audit sampling and service recovery.
+  - id: CMP-09
+    name: Identity Provider
+    type: external_system
+    zone: identity
+    owner: Identity Owner
+    data_classification: Official
+    responsibilities:
+      - Authenticate users and supply approved group claims.
+  - id: CMP-10
+    name: Observability Service
+    type: operations_service
+    zone: operations
+    owner: Platform Owner
+    data_classification: Official
+    responsibilities:
+      - Receive service health events without operational record payloads.
+      - Route material failures to the accountable owner.
+
+interfaces:
+  - id: INT-01
+    from: CMP-01
+    to: CMP-02
+    mode: scheduled_file
+    format: csv
+    cadence: daily
+    protection: Service identity, encrypted transport and immutable receipt log.
+  - id: INT-02
+    from: CMP-02
+    to: CMP-03
+    mode: batch_read
+    format: csv
+    cadence: daily
+    protection: Read only service identity and checksum verification.
+  - id: INT-03
+    from: CMP-03
+    to: CMP-04
+    mode: batch_write
+    format: relational
+    cadence: daily
+    protection: Separate writer identity and atomic publication.
+  - id: INT-04
+    from: CMP-04
+    to: CMP-05
+    mode: model_refresh
+    format: tabular
+    cadence: daily
+    protection: Read only service identity and refresh audit log.
+  - id: INT-05
+    from: CMP-05
+    to: CMP-06
+    mode: interactive_query
+    format: tabular
+    cadence: on_demand
+    protection: User identity, least privilege and service area filtering.
+  - id: INT-06
+    from: CMP-06
+    to: CMP-07
+    mode: human_workflow
+    format: controlled_record
+    cadence: monthly
+    protection: Named users, version history and approval workflow.
+  - id: INT-07
+    from: CMP-09
+    to: CMP-05
+    mode: identity_claim
+    format: token
+    cadence: on_demand
+    protection: Managed identity integration and approved group claims.
+  - id: INT-08
+    from: CMP-03
+    to: CMP-08
+    mode: evidence_write
+    format: structured_record
+    cadence: daily
+    protection: Append only cycle evidence and retention policy.
+  - id: INT-09
+    from: CMP-06
+    to: CMP-08
+    mode: evidence_write
+    format: structured_record
+    cadence: monthly
+    protection: Publication approval and version metadata.
+  - id: INT-10
+    from: CMP-02
+    to: CMP-10
+    mode: event_stream
+    format: structured_event
+    cadence: continuous
+    protection: Restricted operational metadata without source record payloads.
+  - id: INT-11
+    from: CMP-03
+    to: CMP-10
+    mode: event_stream
+    format: structured_event
+    cadence: each_refresh
+    protection: Restricted quality status without exception record payloads.
+  - id: INT-12
+    from: CMP-04
+    to: CMP-10
+    mode: event_stream
+    format: structured_event
+    cadence: each_refresh
+    protection: Restricted load status and reconciliation counts.
+  - id: INT-13
+    from: CMP-05
+    to: CMP-10
+    mode: event_stream
+    format: structured_event
+    cadence: each_refresh
+    protection: Restricted refresh, access test and performance status.
+  - id: INT-14
+    from: CMP-06
+    to: CMP-10
+    mode: event_stream
+    format: structured_event
+    cadence: continuous
+    protection: Restricted availability and publication metadata.
+
+controls:
+  - id: CTL-01
+    name: Extract provenance
+    type: preventive
+    owner: Platform Owner
+    requirements: [NFR-02, NFR-04]
+    component: CMP-02
+    evidence: EVD-01
+  - id: CTL-02
+    name: Schema and key validation
+    type: preventive
+    owner: Reporting Assurance Owner
+    requirements: [BR-02, NFR-04]
+    component: CMP-03
+    evidence: EVD-02
+  - id: CTL-03
+    name: Reporting readiness gate
+    type: preventive
+    owner: Reporting Assurance Owner
+    requirements: [BR-01, BR-02, NFR-04]
+    component: CMP-03
+    evidence: EVD-03
+  - id: CTL-04
+    name: Governed measure catalogue
+    type: preventive
+    owner: KPI Owner
+    requirements: [BR-02]
+    component: CMP-05
+    evidence: EVD-04
+  - id: CTL-05
+    name: Dynamic service area access
+    type: preventive
+    owner: Security Owner
+    requirements: [NFR-03]
+    component: CMP-05
+    evidence: EVD-05
+  - id: CTL-06
+    name: Release field review
+    type: preventive
+    owner: Information Owner
+    requirements: [NFR-06]
+    component: CMP-04
+    evidence: EVD-06
+  - id: CTL-07
+    name: Publication approval
+    type: preventive
+    owner: Report Owner
+    requirements: [BR-01, BR-02, NFR-04]
+    component: CMP-06
+    evidence: EVD-07
+  - id: CTL-08
+    name: Decision and action completeness
+    type: detective
+    owner: Decision Owner
+    requirements: [BR-03, NFR-04]
+    component: CMP-07
+    evidence: EVD-08
+  - id: CTL-09
+    name: Evidence retention check
+    type: detective
+    owner: Service Owner
+    requirements: [NFR-04]
+    component: CMP-08
+    evidence: EVD-09
+  - id: CTL-10
+    name: Refresh recovery exercise
+    type: corrective
+    owner: Service Owner
+    requirements: [NFR-01]
+    component: CMP-08
+    evidence: EVD-10
+  - id: CTL-11
+    name: Report performance test
+    type: detective
+    owner: BI Owner
+    requirements: [NFR-05]
+    component: CMP-06
+    evidence: EVD-11
+  - id: CTL-12
+    name: Accessible report review
+    type: preventive
+    owner: Report Owner
+    requirements: [NFR-07]
+    component: CMP-06
+    evidence: EVD-12
+  - id: CTL-13
+    name: Operational alert routing
+    type: detective
+    owner: Platform Owner
+    requirements: [BR-01, NFR-08]
+    component: CMP-10
+    evidence: EVD-13
+
+evidence:
+  - id: EVD-01
+    artifact: Extract receipt record with checksum and timestamps
+    frequency: each_refresh
+    retention_months: 13
+  - id: EVD-02
+    artifact: Machine readable quality result
+    frequency: each_refresh
+    retention_months: 13
+  - id: EVD-03
+    artifact: Readiness decision and accepted caveats
+    frequency: each_publication
+    retention_months: 13
+  - id: EVD-04
+    artifact: Approved KPI definition version
+    frequency: each_change
+    retention_months: 36
+  - id: EVD-05
+    artifact: Positive and negative access test result
+    frequency: each_release
+    retention_months: 13
+  - id: EVD-06
+    artifact: Approved field inventory and excluded field scan
+    frequency: each_release
+    retention_months: 13
+  - id: EVD-07
+    artifact: Publication approval with report version and timestamp
+    frequency: each_publication
+    retention_months: 13
+  - id: EVD-08
+    artifact: Decision and action completeness check
+    frequency: each_review
+    retention_months: 13
+  - id: EVD-09
+    artifact: Quarterly evidence sample result
+    frequency: quarterly
+    retention_months: 13
+  - id: EVD-10
+    artifact: Recovery exercise record
+    frequency: quarterly
+    retention_months: 13
+  - id: EVD-11
+    artifact: Report render time test result
+    frequency: each_release
+    retention_months: 13
+  - id: EVD-12
+    artifact: Automated and manual accessibility review result
+    frequency: each_release
+    retention_months: 13
+  - id: EVD-13
+    artifact: Synthetic failure and alert routing result
+    frequency: each_release
+    retention_months: 13
+
+risks:
+  - id: RSK-01
+    statement: A late or incomplete source extract delays the review pack.
+    likelihood: medium
+    impact: high
+    owner: Source Owner
+    treatment: Validate receipt by 12:00 on the first working day and invoke the agreed escalation route.
+    requirements: [BR-01, NFR-02]
+    controls: [CTL-01, CTL-03]
+    residual_rating: medium
+  - id: RSK-02
+    statement: A KPI definition changes without approval and creates inconsistent decisions.
+    likelihood: medium
+    impact: high
+    owner: KPI Owner
+    treatment: Version definitions and require an accepted ADR for material semantic changes.
+    requirements: [BR-02]
+    controls: [CTL-04, CTL-07]
+    residual_rating: low
+  - id: RSK-03
+    statement: An unauthorised user sees service area detail.
+    likelihood: low
+    impact: high
+    owner: Security Owner
+    treatment: Use identity based filtering, deny unmapped users and test both allowed and denied cases.
+    requirements: [NFR-03, NFR-06]
+    controls: [CTL-05]
+    residual_rating: low
+  - id: RSK-04
+    statement: Quality failures are hidden by successful report publication.
+    likelihood: medium
+    impact: high
+    owner: Reporting Assurance Owner
+    treatment: Separate technical refresh success from reporting readiness and retain the decision evidence.
+    requirements: [BR-01, BR-02, NFR-04]
+    controls: [CTL-02, CTL-03, CTL-07]
+    residual_rating: medium
+  - id: RSK-05
+    statement: The service cannot be reconstructed after owner turnover or data loss.
+    likelihood: medium
+    impact: medium
+    owner: Service Owner
+    treatment: Retain cycle evidence, test recovery and keep the operating material under version control.
+    requirements: [NFR-01, NFR-04]
+    controls: [CTL-09, CTL-10]
+    residual_rating: low
+  - id: RSK-06
+    statement: The architecture handles the synthetic pilot but fails at production volume.
+    likelihood: medium
+    impact: medium
+    owner: BI Owner
+    treatment: Establish representative volume and performance baselines before production approval.
+    requirements: [NFR-05]
+    controls: [CTL-11]
+    residual_rating: medium
+  - id: RSK-07
+    statement: A review finding does not become a complete owned action.
+    likelihood: medium
+    impact: high
+    owner: Decision Owner
+    treatment: Require action owner, due date and success evidence before closing the review record.
+    requirements: [BR-03]
+    controls: [CTL-08]
+    residual_rating: low
+  - id: RSK-08
+    statement: The reporting model contains data that is not needed for the management decision.
+    likelihood: medium
+    impact: high
+    owner: Information Owner
+    treatment: Approve the field inventory and reject excluded data classes before model publication.
+    requirements: [NFR-06]
+    controls: [CTL-06]
+    residual_rating: low
+  - id: RSK-09
+    statement: The management output excludes users who depend on keyboard or assistive technology.
+    likelihood: medium
+    impact: high
+    owner: Report Owner
+    treatment: Test applicable WCAG 2.2 AA behaviour and provide an equivalent tabular route.
+    requirements: [NFR-07]
+    controls: [CTL-12]
+    residual_rating: medium
+  - id: RSK-10
+    statement: A material reporting stage failure remains undetected until the publication deadline.
+    likelihood: medium
+    impact: high
+    owner: Service Owner
+    treatment: Emit stage health events and exercise accountable alert routes before release.
+    requirements: [BR-01, NFR-08]
+    controls: [CTL-07, CTL-13]
+    residual_rating: low
+
+decisions:
+  - id: ADR-001
+    title: Gate management reporting on explicit data readiness
+    status: accepted_for_scenario
+    owner: Reporting Assurance Owner
+    requirements: [BR-01, BR-02, NFR-04]
+    risks: [RSK-01, RSK-04]
+    record: decisions/ADR-001-reporting-readiness-gate.md
+  - id: ADR-002
+    title: Separate governed reporting layers from source extracts
+    status: accepted_for_scenario
+    owner: Analytics Engineering Owner
+    requirements: [BR-02, NFR-01, NFR-02]
+    risks: [RSK-01, RSK-05, RSK-06]
+    record: decisions/ADR-002-governed-reporting-layers.md
+  - id: ADR-003
+    title: Enforce service area access in the semantic model
+    status: accepted_for_scenario
+    owner: Security Owner
+    requirements: [NFR-03, NFR-06]
+    risks: [RSK-03]
+    record: decisions/ADR-003-semantic-model-access.md

@@ -1,16 +1,22 @@
-## Summary
+## Change
 
-- 
+Describe the architecture or operating change and the problem it resolves.
 
-## Review checklist
+## Traceability
 
-- [ ] Examples remain synthetic and non-client.
-- [ ] README/docs reflect the current structure.
-- [ ] Diagrams and templates still validate.
-- [ ] Relevant checks were run.
+- Requirements:
+- Risks:
+- Controls or decisions:
+- Evidence affected:
 
 ## Validation
 
-```text
+- [ ] Catalogue references pass.
+- [ ] Mermaid diagrams parse.
+- [ ] Generated traceability evidence is current.
+- [ ] Examples remain synthetic and contain no restricted detail.
+- [ ] `make qa` passes.
 
-```
+## Remaining Limit
+
+State what this change does not prove or implement.

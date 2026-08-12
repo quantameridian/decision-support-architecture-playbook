@@ -1,93 +1,54 @@
-# KPI Definition Template
+# KPI Definition
 
-Use this template before a KPI is added to a dashboard, scorecard, or management pack.
+## Identity And Decision
 
-## 1. KPI Identity
-
-| Field | Detail |
+| Field | Value |
 | --- | --- |
-| KPI name |  |
-| Short label for report |  |
+| KPI ID and version |  |
+| Business name and report label |  |
+| Decision supported |  |
 | KPI owner |  |
-| Reporting owner |  |
 | Decision forum |  |
-| Review cadence |  |
-| Version/date agreed |  |
+| Effective date |  |
 
-## 2. Decision Supported
+## Semantic Definition
 
-| Question | Detail |
+| Field | Value |
 | --- | --- |
-| What decision or action does this KPI support? |  |
-| Who uses the KPI? |  |
-| What action should be considered if the KPI moves materially? |  |
-| What should not be inferred from this KPI? |  |
-
-## 3. Definition
-
-| Field | Detail |
-| --- | --- |
-| Plain-language definition |  |
+| Plain language definition |  |
+| Grain |  |
 | Numerator |  |
 | Denominator |  |
-| Inclusion rules |  |
-| Exclusion rules |  |
-| Time basis | Opened date / closed date / due date / reporting period / other |
-| Grain | One row per... |
-| Unit | Count / percentage / days / value / other |
-
-## 4. Calculation
+| Inclusion |  |
+| Exclusion |  |
+| Time basis |  |
+| Unit and rounding |  |
+| Target and comparison |  |
 
 ```text
 Formula:
-
 ```
 
-| Calculation item | Detail |
+## Data Route
+
+| Layer | Object and owner |
 | --- | --- |
-| Source fields required |  |
-| Transformation rule |  |
-| Target or threshold |  |
-| Rounding rule |  |
-| Treatment of blanks |  |
-| Treatment of cancelled/paused records |  |
+| Source fields |  |
+| Transformation |  |
+| Semantic measure |  |
+| Management output |  |
 
-## 5. Data Route
+## Quality And Interpretation
 
-| Layer | Detail |
+| Field | Value |
 | --- | --- |
-| Source system/extract |  |
-| Source owner |  |
-| Transformation or model location |  |
-| Semantic model / report measure |  |
-| Output location |  |
-
-## 6. Quality Checks
-
-| Check | Required? | Owner | Action if failed |
-| --- | --- | --- | --- |
-| Required fields populated | Yes / No |  |  |
-| Valid status/category values | Yes / No |  |  |
-| Duplicate records checked | Yes / No |  |  |
-| Target coverage checked | Yes / No |  |  |
-| Evidence or closure rule checked | Yes / No |  |  |
-
-## 7. Interpretation
-
-| Area | Detail |
-| --- | --- |
+| Required quality controls |  |
+| Treatment when inputs fail |  |
 | Good result means |  |
 | Concerning result means |  |
-| Recommended comparison | Prior period / target / peer group / baseline |
-| Known caveats |  |
-| Related guardrail metric |  |
+| Guardrail measures |  |
+| Must not be inferred |  |
 
-## 8. Approval and Change Control
+## Acceptance And Change
 
-| Item | Detail |
-| --- | --- |
-| Approved by |  |
-| Approval date |  |
-| Next review date |  |
-| Change trigger | Definition dispute / source change / process change / target change |
-| Change log reference |  |
+Record independent expected results, approvers, acceptance date, review date, definition change trigger and historical restatement policy.

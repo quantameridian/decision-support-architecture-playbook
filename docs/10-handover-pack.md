@@ -1,96 +1,59 @@
-# Handover Pack
+# Service Operation And Handover
 
-## Purpose
+## Daily Refresh Runbook
 
-The handover pack makes a reporting or decision-support process maintainable after the initial design work. It should allow another owner to understand the reporting purpose, data route, KPI definitions, checks, refresh rhythm, limitations, and escalation path.
+1. Confirm the scheduled extract arrived inside the source contract window.
+2. Verify checksum, source timestamp, receipt timestamp and contract version.
+3. Run the Quality Gate and review blocker, caveat and warning counts.
+4. Stop if the result is `Not ready`; route each blocker to its owner.
+5. Load accepted data into the Reporting Mart atomically.
+6. Refresh the Semantic Model and reconcile fact, dimension and KPI results.
+7. Run access and performance checks required for the release type.
+8. Record the readiness result and any accepted caveat.
+9. Approve and publish the named report version.
+10. Store cycle evidence under one reporting cycle ID.
 
-This document defines the handover structure for the playbook. It is generic and non-client.
+## Recovery Runbook
 
-## Handover principles
-
-- Handover should be built during implementation, not written after everyone has moved on.
-- The pack should explain the process, not only where files are stored.
-- Known limitations should be visible.
-- Recurring issues should have owners or accepted caveats.
-- Another report owner should be able to run the next cycle using the pack.
-
-## Handover contents
-
-| Section | Purpose | Minimum content |
+| Step | Action | Evidence |
 | --- | --- | --- |
-| Reporting purpose | Explain why the output exists | Audience, decision supported, cadence, output type |
-| Source-to-output map | Show how data becomes a report | Sources, fields, owners, transformations, output fields |
-| KPI dictionary | Define measures used in review | Definition, formula, grain, owner, caveat, target |
-| Data-quality controls | Explain readiness checks | Rule catalogue, exception fields, severity, escalation |
-| Refresh runbook | Explain how to produce the output | Source cut-off, refresh steps, validation checks, publication route |
-| Review rhythm | Explain how outputs become action | Review calendar, attendees, decision owner, action log |
-| Escalation route | Explain what happens when reporting is not ready | Triggers, escalation owner, expected response |
-| Known issues | Prevent hidden knowledge | Recurring problems, workarounds, accepted caveats |
-| Change log | Maintain continuity | Date, change, reason, owner, approval |
+| 1 | Declare the failed stage and affected cycle | Incident timestamp and owner |
+| 2 | Preserve failed logs and inputs | Evidence references |
+| 3 | Select the last accepted receipt or corrected replacement | Checksum and acceptance record |
+| 4 | Rebuild quality, mart and model layers in order | Stage results and reconciliations |
+| 5 | Run access, KPI and report smoke checks | Test result |
+| 6 | Publish only after a new readiness and approval decision | New report version |
+| 7 | Compare elapsed recovery with eight business hour RTO | Recovery exercise result |
+| 8 | Record cause, impact and preventive action | Incident review |
 
-## Runbook checklist
+The proposed RPO is 24 hours. If a failure would lose more accepted data, the Service Owner must stop normal recovery and obtain a risk decision before publication.
 
-| Step | Check | Owner | Evidence |
-| --- | --- | --- | --- |
-| 1 | Confirm source cut-off date | Report owner | Cut-off recorded |
-| 2 | Confirm source extract or table received | Source owner | File/table receipt or refresh log |
-| 3 | Run required field and schema checks | Reporting assurance owner | Quality summary |
-| 4 | Run business rule checks | Reporting assurance owner | Exception register |
-| 5 | Review high-severity exceptions | Decision owner | Caveat or action agreed |
-| 6 | Refresh reporting model/output | Analytics or BI owner | Refresh timestamp |
-| 7 | Check headline KPI values | Report owner | Reconciliation note |
-| 8 | Publish output with caveats | Report owner | Published pack/dashboard |
-| 9 | Capture decisions and actions | Decision owner | Action log |
-| 10 | Close or carry forward actions | Action owners | Closure evidence |
+## Continuity Output
 
-## Ownership matrix
+If the normal report cannot meet the forum deadline, the Service Owner can invoke a preapproved continuity output containing the last accepted results, clear age, known incident, affected decisions and next update time. It must not be presented as current data.
 
-| Activity | Accountable role | Backup role | Review cadence |
-| --- | --- | --- | --- |
-| Source data maintenance | Data owner | Source delegate | Each reporting cycle |
-| KPI definition approval | KPI owner | Decision owner | Quarterly or on change |
-| Data-quality rule review | Reporting assurance owner | Report owner | Monthly or on issue |
-| Reporting model refresh | Analytics or BI owner | Report owner | Each reporting cycle |
-| Output publication | Report owner | Reporting delegate | Each reporting cycle |
-| Review meeting decisions | Decision owner | Deputy decision owner | Each review |
-| Action closure | Action owner | Decision owner | By due date |
-| Handover pack maintenance | Service owner | Report owner | Quarterly or on role change |
+## Monitoring
 
-## Known issue log
+| Signal | Alert condition | Owner |
+| --- | --- | --- |
+| Source receipt | Missing or more than 24 hours behind cut off | Platform Owner |
+| Quality gate | Any blocker or incomplete check set | Reporting Assurance Owner |
+| Mart load | Rejected atomic load or count mismatch | Analytics Engineering Owner |
+| Model refresh | Failure or KPI reconciliation mismatch | BI Owner |
+| Access test | Any denied case returns detail | Security Owner |
+| Publication | No approved version by deadline | Report Owner and Service Owner |
+| Action register | Material action lacks owner or due date | Decision Owner |
+| Evidence retention | Sampled cycle cannot be reconstructed | Service Owner |
+| Stage failure alert | Accountable owner is not notified inside 15 minutes | Platform Owner and Service Owner |
 
-| Issue | Impact | Current handling | Owner | Review date |
-| --- | --- | --- | --- | --- |
-| Missing owner values in source | Follow-up may be unclear | Flag as data-quality exception | Data owner |  |
-| Missing due dates | Overdue KPI may be understated | Publish caveat and request correction | Reporting assurance owner |  |
-| Repeated manual correction | Transformation logic may need update | Review for controlled rule change | Analytics or BI owner |  |
-| KPI definition dispute | Review time lost reconciling numbers | Escalate to KPI owner | KPI owner |  |
+## Handover Contents
 
-## Handover acceptance test
+Handover includes the architecture catalogue, current ADRs, source contract, data model, KPI definitions, quality rules, access mapping ownership, runbooks, monitoring routes, evidence location, open risks, recent incidents, support contacts by role and current action backlog.
 
-Before handover is accepted, ask a new or backup owner to answer:
+## Handover Test
 
-- What decision does the report support?
-- Where does the source data come from?
-- Which fields feed the headline KPIs?
-- What checks run before publication?
-- Which exceptions block or caveat the report?
-- How is the output refreshed?
-- Where are actions recorded after review?
-- Who approves KPI definition changes?
-- What are the known limitations?
+An operator who did not build the service completes one refresh and one recovery exercise from maintained documentation. The test fails when the operator needs an undocumented path, personal credential, local file or verbal definition. Findings enter the service backlog before handover acceptance.
 
-If these questions cannot be answered from the handover pack, the pack is not complete.
+## Removal And Role Change
 
-## Handover risks
-
-| Risk | Mitigation |
-| --- | --- |
-| Pack is too vague | Use concrete source, KPI, control, and owner entries |
-| Pack is not maintained | Assign service owner and review cadence |
-| Known issues are hidden | Maintain known issue log and accepted caveats |
-| Refresh steps depend on one person | Test runbook with backup owner |
-| Change history is missing | Record changes when definitions, sources, or controls move |
-
-## Publication note
-
-For this portfolio repository, the handover pack is a template and design structure. It does not claim that a real reporting process has been handed over for a client or employer.
+Handover includes revocation. Departing owners lose privileged access, scheduled identities remain non personal, group membership is reviewed and local copies are removed under the organisation records policy. A replacement owner accepts the open risks and recurring duties explicitly.

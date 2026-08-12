@@ -7,7 +7,7 @@ or request real client data, protected information, credentials, or material tha
 the contributor does not have the right to share.
 
 Unacceptable behavior includes harassment, discriminatory language, personal
-attacks, doxxing, secret exposure, or pressure to misrepresent portfolio work as
+attacks, doxxing, secret exposure, or pressure to misrepresent synthetic work as
 production client delivery.
 
 Issues should be handled by the repository owner. Reports can be made through

@@ -1,53 +1,52 @@
 # Executive Brief
 
-## What this playbook is
+## Decision
 
-This repository is a reusable architecture playbook for moving manual reporting
-toward controlled decision support. It focuses on the operating model around
-reporting: ownership, definitions, controls, review rhythm, escalation, and
-handover.
+Approve a controlled pilot of the synthetic Operations Review Service, subject to named owners confirming the source contract and acceptance plan. Do not approve production operation until recovery, performance and platform access evidence exists.
 
-## Reporting problem
+## Business Need
 
-Manual reporting can still produce regular dashboards and packs while remaining
-fragile underneath. The usual failure is not only technical. It is unclear
-ownership, undocumented KPI logic, weak data quality gates, informal exceptions,
-and review meetings that do not feed decisions back into the source process.
+Service managers currently depend on manual extracts, workbook logic and informal corrections. A monthly pack is produced, but the route from source record to management action is difficult to reconstruct. KPI disputes and quality corrections consume review time that should be used to decide priorities.
 
-## What a reviewer should inspect
+The proposed service answers three questions:
 
-1. [Source to output map](04-source-to-output-map.md) for lineage and control placement.
-2. [Data quality controls](05-data-quality-controls.md) for quality gate design.
-3. [KPI dictionary](06-kpi-dictionary.md) for definition ownership.
-4. [Operating model](07-operating-model.md) for roles, cadence, escalation, and handover.
-5. [Synthetic applied walkthrough](../examples/manual-reporting-transformation-example.md).
+1. What work is open or overdue and needs intervention?
+2. Is service performance meeting the agreed target?
+3. Is the underlying evidence reliable enough for a formal decision?
 
-## Portfolio signal
+## Proposed Change
 
-This playbook shows how I would structure the architecture around a reporting problem before choosing a tool. It is meant to demonstrate problem framing, control design, stakeholder ready documentation, and the link between data work and decisions.
+The design separates the reporting route into controlled source receipt, a quality gate, a tested reporting mart, a governed semantic model and an access filtered management report. A decision and action register closes the loop. An evidence store retains the source receipt, quality result, approval, publication and review outcome for 13 months.
 
-## What this demonstrates
+The architecture catalogue defines eleven requirements, ten components, fourteen interfaces, thirteen controls, thirteen evidence records, ten risks and three accepted scenario decisions.
 
-- Architecture thinking beyond dashboard visuals.
-- Ability to translate messy reporting symptoms into a target operating model.
-- Practical controls around source data, KPI definitions, quality exceptions,
-  review forums, and action ownership.
-- Documentation that can be reused in discovery and review meetings.
+## Key Commitments
 
-## What this does not prove
+| Commitment | Target |
+| --- | --- |
+| Monthly publication | 09:00 on the third working day |
+| Source freshness | No more than 24 hours behind the agreed cut off |
+| Recovery time | Eight business hours |
+| Recovery point | 24 hours |
+| Detail access | Service area scope, deny when no mapping exists |
+| Evidence retention | 13 months |
+| Executive page performance | Five seconds or less at the 95th percentile for pilot volume |
+| Accessibility | Applicable WCAG 2.2 AA checks with an equivalent tabular route |
+| Failure notification | Accountable owner notified inside 15 minutes |
 
-- It does not prove delivery for a real organisation.
-- It does not include production data or platform configuration.
-- It does not replace a working dbt model, Power BI report, or Python data quality engine.
-- It works best as an architecture companion to the technical repos.
+## Main Risks
 
-## Review standard
+The largest residual risks are quality failures hidden by publication, an untested scale assumption and inaccessible report behaviour. The readiness gate controls the first by separating technical success from release approval. Scale and accessibility remain open until representative platform evidence exists.
 
-The playbook is ready for review when a reader can answer:
+## Pilot Exit
 
-- What decision does the reporting support?
-- Which source fields feed each output?
-- Who owns source quality and KPI definitions?
-- What checks run before publication?
-- How are exceptions assigned, escalated, and closed?
-- What must be handed over so the process survives role changes?
+Production consideration requires:
+
+- one complete reporting cycle reconstructed from retained evidence;
+- blocker, caveat and clean readiness paths exercised;
+- positive and negative service area access tests passed;
+- recovery completed inside eight business hours;
+- report performance measured at the agreed pilot and forecast volumes;
+- accessibility checks completed with no critical or serious issue;
+- material failure alerts reaching accountable owners inside 15 minutes;
+- named service, information, source, KPI, security and report owners accepting their duties.

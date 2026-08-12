@@ -1,0 +1,14 @@
+flowchart LR
+    Manager["Service Manager<br/>reviews performance and agrees action"]
+    Owner["Data and KPI Owners<br/>approve sources and definitions"]
+    Service["Operations Review Service<br/>controlled monthly decision support"]
+    Source["Operational Work System<br/>authoritative work records"]
+    Identity["Identity Provider<br/>authentication and group claims"]
+    Register["Decision and Action Register<br/>owned outcomes and due dates"]
+
+    Owner -->|"Approved data and definitions"| Service
+    Source -->|"Daily work item extract"| Service
+    Identity -->|"Identity and service area claims"| Service
+    Service -->|"Performance, readiness and detail"| Manager
+    Manager -->|"Decisions and actions"| Register
+    Register -->|"Control and definition changes"| Owner

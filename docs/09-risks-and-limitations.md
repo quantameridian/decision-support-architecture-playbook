@@ -1,54 +1,43 @@
-# Risks and Limitations
+# Risk Register And Limitations
 
-## Purpose
+## Architecture Risks
 
-This document records the main risks and limitations for the decision-support architecture playbook. It is deliberately honest about what a generic portfolio playbook can and cannot prove.
+| ID | Risk | Inherent view | Treatment | Residual | Owner |
+| --- | --- | --- | --- | --- | --- |
+| `RSK-01` | Late or incomplete source delays review | Medium likelihood, high impact | Provenance check and readiness gate | Medium | Source Owner |
+| `RSK-02` | Unapproved KPI change creates inconsistent decisions | Medium likelihood, high impact | Versioned definitions, approval and ADR process | Low | KPI Owner |
+| `RSK-03` | Unauthorised user sees service area detail | Low likelihood, high impact | Identity filtering, deny by default and access tests | Low | Security Owner |
+| `RSK-04` | Quality failure is hidden by successful publication | Medium likelihood, high impact | Quality gate, explicit readiness and approval evidence | Medium | Reporting Assurance Owner |
+| `RSK-05` | Service cannot be reconstructed after loss or owner turnover | Medium likelihood, medium impact | Evidence retention, recovery exercise and maintained runbook | Low | Service Owner |
+| `RSK-06` | Pilot design fails at production volume | Medium likelihood, medium impact | Representative volume and performance test | Medium | BI Owner |
+| `RSK-07` | Review finding does not become a complete owned action | Medium likelihood, high impact | Action owner, due date and success evidence check | Low | Decision Owner |
+| `RSK-08` | Reporting model contains data not needed for the decision | Medium likelihood, high impact | Approved field inventory and excluded field rejection | Low | Information Owner |
+| `RSK-09` | Output excludes keyboard or assistive technology users | Medium likelihood, high impact | WCAG review and equivalent tabular route | Medium | Report Owner |
+| `RSK-10` | Material stage failure remains undetected until deadline | Medium likelihood, high impact | Health events and exercised alert routes | Low | Service Owner |
 
-## Architecture risks
+Residual ratings are design judgements for the synthetic case. A real risk owner would set likelihood, impact and acceptance against organisational criteria.
 
-| Risk | Meaning | Mitigation in this playbook |
-| --- | --- | --- |
-| Unclear ownership | Data, KPI, report, and action ownership are not assigned clearly. | Later operating-model section should define ownership roles and review responsibilities. |
-| Weak KPI definitions | Measures are used in management forums without agreed calculation logic. | KPI dictionary templates should require definition, formula, owner, caveat, and review cadence. |
-| Late data-quality checks | Quality issues are found after outputs are already circulated. | Data-quality control section should place checks before management output creation. |
-| Manual adjustment risk | Manual corrections are made without evidence, versioning, or approval. | Source-to-output mapping should identify manual steps and control points. |
-| Dashboard-only thinking | Visuals are built without source lineage, ownership, or handover. | The playbook treats reports as part of a wider decision-support system. |
-| Review without action | Management meetings discuss metrics but do not capture decisions or owners. | Reporting lifecycle should include action logging and follow-up ownership. |
-| Handover failure | Reporting processes depend on individual knowledge. | Handover pack should document sources, definitions, refresh, checks, owners, and known limitations. |
+## Risk Decisions
 
-## Portfolio limitations
+Medium residual risk is not the same as accepted production risk. `RSK-01`, `RSK-04`, `RSK-06` and `RSK-09` remain pilot concerns because source behaviour, waiver use, scale and accessibility need observed evidence. The Decision Owner cannot accept security or information risk on behalf of the Security Owner or Information Owner.
 
-- This is a public portfolio project, not a client delivery record.
-- It does not claim that Quanta Meridian or the author has delivered this exact playbook for a client.
-- It uses generic architecture patterns and must not include protected, official, internal, or copied workplace material.
-- It does not include real operational data.
-- It does not prove production implementation capability by itself.
-- It is documentation-led and should be assessed as architecture thinking, not as a deployed platform.
+## Known Design Gaps
 
-## Method limitations
+- No physical platform, region, network route or tenant is selected.
+- No production volume, concurrency profile or cost estimate exists.
+- Recovery and performance targets are specified but not exercised.
+- Accessibility and alert targets are specified but not exercised.
+- No live identity provider, group lifecycle or export control has been tested.
+- No formal privacy assessment, threat workshop or penetration test has run.
+- The design does not address cross region resilience, legal hold or records disposal tooling.
+- The synthetic monthly process does not prove daily or real time operation.
 
-- A real organisation would need discovery, stakeholder interviews, source-system review, data profiling, security assessment, and governance alignment.
-- The playbook cannot define final KPI ownership without a real operating context.
-- The target architecture may need to change depending on existing tools, data platform maturity, reporting cadence, and risk appetite.
-- Templates can support consistency, but they cannot replace review by accountable business and technical owners.
+## Evidence Limits
 
-## Boundary risks
+The validation suite proves catalogue consistency, reference coverage, document links and Mermaid syntax. It does not prove that an architecture is correct, that controls operate, or that a selected product supports the design.
 
-This repo should not drift into the scope of the other portfolio repositories:
+The [pilot release evidence](../examples/pilot-release-evidence.md) is deliberately filled, but remains an example. Its purpose is to make evidence expectations reviewable before implementation.
 
-- Python exception generation belongs in `operational-data-quality-engine`.
-- SQL/dbt transformation modelling belongs in `analytics-engineering-service-mart`.
-- Power BI semantic modelling and DAX belong in `powerbi-kpi-semantic-model`.
+## Review Triggers
 
-This playbook owns the architecture, controls, operating model, roadmap, and handover thinking around those technical layers.
-
-## Publication limitations
-
-Before publication, check that:
-
-- all claims are framed as portfolio examples, not client outcomes;
-- diagrams are generic and do not imply a protected system;
-- templates are complete enough to be useful;
-- no placeholder outline sections remain;
-- no wording implies official endorsement or access to protected material;
-- limitations remain visible in the README and this document.
+Reassess the design when source authority, reporting cadence, volume, sensitivity, user population, identity provider, retention, recovery target or decision forum changes. Each trigger can alter component boundaries, risks and acceptance evidence even if the report visuals remain unchanged.

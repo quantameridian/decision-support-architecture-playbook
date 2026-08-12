@@ -1,207 +1,108 @@
-# Decision Support Architecture Playbook
+# Operations Review Service Architecture
 
 [![CI](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml/badge.svg)](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/codeql.yml/badge.svg)](https://github.com/quantameridian/decision-support-architecture-playbook/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/quantameridian/decision-support-architecture-playbook/badge)](https://scorecard.dev/viewer/?uri=github.com/quantameridian/decision-support-architecture-playbook)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Project purpose
+This repository contains the proposed architecture and operating controls for a synthetic monthly operations review service. The service turns operational work records into governed workload, SLA and data readiness reporting, then preserves the decisions and actions taken in review.
 
-This repository is a public portfolio example of architecture work for controlled reporting and decision support. It shows how a messy manual reporting process can move toward clearer ownership, agreed KPI definitions, data quality checks, review routines, delivery stages, and handover material.
+The design is technology neutral where a product choice is not needed. It defines business outcomes, measurable service requirements, components, interfaces, controls, evidence, risks and architecture decisions. Those objects are held in one [architecture catalogue](catalogue/architecture.yaml) and checked for traceability in CI.
 
-It is not a single technical build. It is meant to show architecture and solution design thinking around the work that sits beside the technical repos.
+## Decision Supported
 
-## Portfolio focus
+The Director of Operations needs to decide where intervention is required, which overdue work takes priority and whether the evidence is reliable enough for formal review. The service must publish by 09:00 on the third working day and disclose material quality limitations rather than hiding them behind a successful refresh.
 
-This repo is designed to show how I structure a reporting problem before tools are chosen. It is the architecture companion to the Python, dbt, and Power BI repos: it explains the ownership, controls, review routine, risks, and handover path that make technical work useful in a business setting.
+The June 2026 synthetic cycle gives the proposed design something specific to resolve:
 
-A hiring or technical reviewer should be able to see how a vague reporting problem becomes a structure that can be discussed, challenged, and delivered. The playbook moves from current state to target state, source to output mapping, controls, operating model, security boundaries, and handover. It also includes a short ADR example so the tradeoffs are visible instead of buried in prose.
+| Signal | Result | Decision implication |
+| --- | ---: | --- |
+| Current backlog | 16 | The unresolved queue needs active prioritisation |
+| Overdue active items | 14 | Timeliness risk requires named owner action |
+| SLA met rate | 69.2% | Performance is below the weighted target of 82.1% |
+| Data readiness rate | 78.1% | Seven records require correction or an accepted caveat |
 
-What this does not claim: this is not a production platform, a client delivery pack, or evidence of a live enterprise implementation. It is a reusable architecture pattern with synthetic examples.
+The filled [pilot release evidence](examples/pilot-release-evidence.md) shows how that cycle would be approved and carried into an action register.
 
-## Reviewer quick path
-
-If you only have a few minutes, start here:
-
-1. Read [docs/reviewer-guide.md](docs/reviewer-guide.md).
-2. Read [docs/00-executive-brief.md](docs/00-executive-brief.md).
-3. Inspect [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) and [docs/07-operating-model.md](docs/07-operating-model.md).
-4. Read [docs/11-security-architecture.md](docs/11-security-architecture.md) for classification, access, and public and private boundaries.
-5. Review [examples/manual-reporting-transformation-example.md](examples/manual-reporting-transformation-example.md) and [examples/architecture-decision-record-example.md](examples/architecture-decision-record-example.md) for applied synthetic examples.
-6. Check [diagrams/README.md](diagrams/README.md) for the diagram inventory.
-7. Run `make qa` to validate required docs, diagrams, templates, examples, and local links.
-
-Important limitation: this is an architecture artifact, not a production implementation. It makes most sense when reviewed alongside the Python data quality repo, dbt service mart, and Power BI semantic model repo.
-
-## Business problem
-
-Many teams rely on a mix of spreadsheets, manual extracts, dashboard pages, email updates, and informal KPI definitions. Reports may be produced regularly, but the route from source data to management decision is often unclear.
-
-Common symptoms include:
-
-- no agreed source to output map;
-- KPI definitions that change by meeting or report owner;
-- manual checks that depend on individual knowledge;
-- weak evidence of data quality before reporting;
-- dashboards that show numbers without ownership or caveats;
-- review forums that discuss outputs without a reliable action loop;
-- handover material that is incomplete when people move roles.
-
-This playbook lays out the architecture work needed to make reporting easier to explain, control, and use in a decision meeting.
-
-## Intended reader
-
-Primary readers:
-
-- analytics engineers who need to connect data models to reporting operations;
-- reporting architects designing repeatable management information flows;
-- data architects defining ownership, controls, and source to output structure;
-- solution architects shaping reporting systems around business processes;
-- decision support leads who need outputs that can be reviewed, challenged, and handed over.
-
-Secondary readers:
-
-- hiring reviewers looking for evidence of structured architecture thinking;
-- managers who need to understand what a controlled reporting system requires beyond dashboard visuals.
-
-## What this project shows
-
-- Source to output architecture thinking.
-- Requirements to reporting translation.
-- KPI ownership and definition design.
-- Data quality control placement.
-- Reporting lifecycle and review routine design.
-- Operating model and handover planning.
-- Risk based implementation sequencing.
-- Practical documentation for review meetings.
-
-## Skills demonstrated
-
-| Skill | Where to inspect |
-| --- | --- |
-| Reporting architecture | [docs/02-current-state.md](docs/02-current-state.md), [docs/03-target-state.md](docs/03-target-state.md), and [docs/04-source-to-output-map.md](docs/04-source-to-output-map.md) |
-| Operating model design | [docs/07-operating-model.md](docs/07-operating-model.md) |
-| Data quality control design | [docs/05-data-quality-controls.md](docs/05-data-quality-controls.md) and [templates/data-quality-rule-template.md](templates/data-quality-rule-template.md) |
-| KPI governance | [docs/06-kpi-dictionary.md](docs/06-kpi-dictionary.md) and [templates/kpi-definition-template.md](templates/kpi-definition-template.md) |
-| Security architecture | [docs/11-security-architecture.md](docs/11-security-architecture.md) and [diagrams/security-boundary.mmd](diagrams/security-boundary.mmd) |
-| Architecture decision records | [examples/architecture-decision-record-example.md](examples/architecture-decision-record-example.md) and [templates/architecture-decision-record-template.md](templates/architecture-decision-record-template.md) |
-| Stakeholder handover | [docs/10-handover-pack.md](docs/10-handover-pack.md) and [templates/stakeholder-review-template.md](templates/stakeholder-review-template.md) |
-| Public repo security practice | [docs/security-posture.md](docs/security-posture.md), CI, CodeQL, Scorecard, and document redaction rules |
-
-## Architecture concept
-
-Decision support control loop:
+## Proposed Service
 
 ```mermaid
 flowchart LR
-    A["Operational source data"] --> B["Ownership and definition checks"]
-    B --> C["Data quality controls"]
-    C --> D["Reporting model or semantic layer"]
-    D --> E["Management output"]
-    E --> F["Review forum"]
-    F --> G["Decision and action log"]
-    G --> H["Owner follow up"]
-    H --> B
+    Source["Operational Work System"] --> Landing[("Controlled Landing Store")]
+    Landing --> Gate["Quality Gate"]
+    Gate --> Mart[("Reporting Mart")]
+    Mart --> Model["Semantic Model"]
+    Identity["Identity Provider"] --> Model
+    Model --> Report["Management Report"]
+    Report --> Review["Decision and Action Register"]
+    Gate --> Evidence[("Evidence Store")]
+    Report --> Evidence
 ```
 
-The core idea is that a reporting system is not only a dashboard or dataset. It also needs definitions, control points, ownership, review cadence, and a way to turn findings into actions.
+The design separates source receipt, quality judgement, reporting data, governed measures and consumption. This makes failures easier to isolate and prevents technical refresh success from being treated as proof that a report is ready.
 
-## Boundaries
+## Architecture Evidence
 
-In scope:
+| Concern | Reviewable evidence |
+| --- | --- |
+| Context and outcomes | [Executive brief](docs/00-executive-brief.md) and [problem statement](docs/01-problem-statement.md) |
+| Requirements and traceability | [Requirements and traceability](docs/12-requirements-and-traceability.md) and the generated [validation evidence](docs/validation-report.md) |
+| System structure | [Target state](docs/03-target-state.md), [system context](diagrams/system-context.mmd) and [container view](diagrams/container-view.mmd) |
+| Interfaces and lineage | [Source to output map](docs/04-source-to-output-map.md) and catalogue interfaces `INT-01` to `INT-09` |
+| Quality and release control | [Data quality controls](docs/05-data-quality-controls.md) and [ADR-001](decisions/ADR-001-reporting-readiness-gate.md) |
+| KPI semantics | [KPI dictionary](docs/06-kpi-dictionary.md) |
+| Ownership and operation | [Operating model](docs/07-operating-model.md), [roadmap](docs/08-implementation-roadmap.md) and [handover](docs/10-handover-pack.md) |
+| Security and privacy | [Security architecture](docs/11-security-architecture.md), [trust boundaries](diagrams/trust-boundaries.mmd) and [ADR-003](decisions/ADR-003-semantic-model-access.md) |
+| Risk and assurance | [Risk register](docs/09-risks-and-limitations.md) and [assurance review](examples/architecture-assurance-review.md) |
+| Decision history | [Decision log](decisions/README.md) |
 
-- architecture problem framing;
-- current state and target state reporting patterns;
-- source to output mapping;
-- KPI dictionary structure;
-- data quality control design;
-- operating model;
-- implementation roadmap;
-- handover pack;
-- reusable architecture templates.
+For a short review, use the [reviewer guide](docs/reviewer-guide.md).
 
-Out of scope:
+## Measurable Commitments
 
-- claims of delivery for a real client or employer;
-- protected, official, internal, or copied workplace material;
-- a production platform deployment;
-- a full enterprise architecture repository;
-- a Power BI report build;
-- a Python validation engine;
-- a dbt analytics mart.
+The proposed service has eleven requirements. The main non functional commitments are:
 
-This repo should complement the other portfolio repositories, not duplicate them. It explains the operating model around decision support; the other repos demonstrate specific technical layers.
+- source freshness no worse than 24 hours at the agreed cut off;
+- recovery inside eight business hours, with no more than 24 hours of accepted data loss;
+- detailed records restricted by service area, with no detail for unmapped identities;
+- reporting cycle evidence retained for 13 months;
+- executive summary rendered inside five seconds at the agreed pilot volume;
+- no special category data or direct personal contact details in the reporting model;
+- applicable report interactions meet WCAG 2.2 AA with an equivalent tabular route;
+- material stage failures reach the accountable owner within 15 minutes.
 
-## Sample material
+Each commitment has an owner, acceptance statement, control and evidence record in the catalogue. The validation report provides the generated coverage matrix.
 
-Any examples must use synthetic structures and templates only. Do not add real client names, employer material, official data, or internal workplace examples.
+## Run The Checks
 
-## How to use this repository
-
-Read the numbered documents in order:
-
-0. [Executive brief](docs/00-executive-brief.md).
-1. [Problem statement](docs/01-problem-statement.md).
-2. [Current state](docs/02-current-state.md).
-3. [Target state](docs/03-target-state.md).
-4. [Source to output map](docs/04-source-to-output-map.md).
-5. [Data quality controls](docs/05-data-quality-controls.md).
-6. [KPI dictionary](docs/06-kpi-dictionary.md).
-7. [Operating model](docs/07-operating-model.md).
-8. [Implementation roadmap](docs/08-implementation-roadmap.md).
-9. [Risks and limitations](docs/09-risks-and-limitations.md).
-10. [Handover pack](docs/10-handover-pack.md).
-11. [Security architecture](docs/11-security-architecture.md).
-
-The [templates](templates) folder contains reusable document structures for discovery, KPI definition, quality rule design, requirements capture, and review meetings.
-
-Validation:
+Python 3.11 or later and Node.js 20 or later are required.
 
 ```bash
+make install
 make qa
 ```
 
-Security posture, public document redaction rules, and information leakage boundaries are documented in [docs/security-posture.md](docs/security-posture.md).
+The checks parse the YAML catalogue, verify every cross reference, check requirement coverage, inspect public content and local links, parse every Mermaid file with Mermaid itself, run unit tests and regenerate the traceability evidence. CI fails if the generated report is stale.
 
-## Outputs
+## Repository Map
 
-Current repository outputs:
+```text
+catalogue/     Architecture objects and traceability source
+decisions/     Accepted scenario decisions and lifecycle index
+diagrams/      Context, component, trust and process views as Mermaid
+docs/          Business, architecture, control and operating records
+examples/      Filled synthetic assurance and release evidence
+templates/     Reusable requirements, control, decision and review records
+scripts/       Catalogue, document and Mermaid validation
+tests/         Regression tests for traceability failures
+```
 
-- [problem statement](docs/01-problem-statement.md) for fragmented manual reporting;
-- executive brief for fast review;
-- [current state reporting flow](docs/02-current-state.md) and risk summary;
-- [target state source to output architecture](docs/03-target-state.md);
-- [data quality control catalogue](docs/05-data-quality-controls.md) and escalation model;
-- [KPI dictionary structure](docs/06-kpi-dictionary.md) with safe synthetic examples;
-- [operating model](docs/07-operating-model.md) covering owners, cadence, quality responsibilities, escalation, change control, and handover;
-- [implementation roadmap](docs/08-implementation-roadmap.md) with staged delivery gates;
-- [handover pack structure](docs/10-handover-pack.md);
-- [security architecture](docs/11-security-architecture.md) covering classification, access, auditability, and public and private boundaries;
-- reusable templates for KPI definitions, reporting requirements, quality rules, and review meetings;
-- Mermaid diagrams for current state, source to output flow, reporting lifecycle, assurance control loop, and security boundary;
-- diagram index;
-- synthetic walkthrough showing how the playbook could be applied to a manual reporting process.
-- architecture decision record template and a filled synthetic ADR example.
+## Design Boundary
 
-## Where this fits
+This is a proposed architecture for a synthetic case. It does not claim a live platform, production traffic, tenant configuration, user research, penetration test, cost estimate or regulatory approval. Recovery and performance targets are defined but not proven on a selected platform. The [assurance review](examples/architecture-assurance-review.md) therefore permits only a controlled pilot and records the evidence required before production approval.
 
-This repo supports decision support, reporting architecture, data architecture, analytics engineering, and solution architecture roles. It shows how technical reporting work fits into a wider system of ownership, controls, review routines, and handover.
+## Reference Basis
 
-Good reporting architecture is not just about producing charts. It is about making sure the right data, definitions, checks, people, and decisions connect reliably.
+The documentation approach follows the [C4 model](https://c4model.com/) for scoped architecture views and [GDS guidance](https://gds-way.digital.cabinet-office.gov.uk/standards/architecture-decisions.html) for decisions kept with version controlled service records. The decision lifecycle also reflects [AWS ADR guidance](https://docs.aws.amazon.com/prescriptive-guidance/latest/architectural-decision-records/adr-process.html).
 
-For portfolio review, this repo is strongest as evidence of structured architecture thinking, stakeholder ready documentation, governance design, and the ability to connect technical delivery to decision making.
-
-## Limitations
-
-- This is a portfolio playbook, not evidence of a live client engagement.
-- It is not a substitute for discovery in a real organisation.
-- It does not include real operational data or internal reporting documents.
-- It does not implement a working reporting platform.
-- It provides a reusable architecture pattern rather than a production implementation.
-- The examples are synthetic and should be adapted before use in any real organisation.
-
-## Next improvements
-
-1. Add a compact one page source to output map using the existing synthetic walkthrough.
-2. Add rendered diagram screenshots only if they are generated from the Mermaid source files.
-3. Keep the public readiness audit current whenever major docs change.
+Security analysis uses the NCSC sequence of [establishing context, resisting compromise and disruption, improving detection and reducing impact](https://www.ncsc.gov.uk/collection/cyber-security-design-principles). Operational review considers the security, reliability, performance and operations concerns described by the [Google Cloud Well Architected Framework](https://docs.cloud.google.com/architecture/framework), without implying that Google Cloud has been selected. Accessibility uses the [W3C WCAG 2.2 standard](https://www.w3.org/WAI/standards-guidelines/wcag/). Open standards, privacy and sustainability questions are informed by the [Technology Code of Practice](https://www.gov.uk/guidance/the-technology-code-of-practice), while monitoring and incident readiness draw on the [Azure operational excellence checklist](https://learn.microsoft.com/en-us/azure/well-architected/operational-excellence/checklist).

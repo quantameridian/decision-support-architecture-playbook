@@ -1,17 +1,16 @@
 # Diagram Index
 
-The Mermaid files in this folder are source-controlled diagrams for the playbook.
-They should remain simple enough to review directly in GitHub.
+The diagrams are source files that GitHub can render and reviewers can diff. Component and interface identifiers come from the [architecture catalogue](../catalogue/architecture.yaml).
 
-| Diagram | Purpose |
+| View | Question answered |
 | --- | --- |
-| [current-state-flow.mmd](current-state-flow.mmd) | Shows typical fragmented manual reporting flow |
-| [source-to-output-flow.mmd](source-to-output-flow.mmd) | Shows the target source-to-output control route |
-| [reporting-lifecycle.mmd](reporting-lifecycle.mmd) | Shows the recurring reporting and review cycle |
-| [assurance-control-loop.mmd](assurance-control-loop.mmd) | Shows how data-quality checks feed correction and escalation |
-| [security-boundary.mmd](security-boundary.mmd) | Shows public, controlled, and restricted reporting boundaries |
+| [system context](system-context.mmd) | Who uses the service and which external systems does it depend on? |
+| [container view](container-view.mmd) | Which logical components own each responsibility and interface? |
+| [trust boundaries](trust-boundaries.mmd) | Where do data and identity cross security zones? |
+| [reporting cycle sequence](reporting-cycle-sequence.mmd) | In what order are source, quality, approval and decision evidence created? |
+| [current state](current-state-flow.mmd) | Where are the present manual dependencies? |
+| [source to output](source-to-output-flow.mmd) | How does a record become a management output and action? |
+| [reporting lifecycle](reporting-lifecycle.mmd) | How does review feed changes into the next cycle? |
+| [assurance loop](assurance-control-loop.mmd) | How are quality exceptions corrected or escalated? |
 
-## Review rule
-
-Do not add decorative diagrams. Every diagram should explain ownership, control
-placement, lineage, review cadence, or decision feedback.
+`npm run validate:diagrams` sends every `.mmd` file through Mermaid syntax parsing. A diagram also needs human review: valid syntax does not prove correct boundaries, direction or ownership.
