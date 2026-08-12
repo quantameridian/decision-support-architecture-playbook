@@ -1,27 +1,17 @@
 # Security Policy
 
-## Supported scope
+## Supported Scope
 
-This is a public portfolio playbook using synthetic examples and generic
-templates. It is not a production architecture repository and must not be used
-with real client, customer, employee, or protected operational data without a
-separate security review.
+This repository contains documentation, YAML, Mermaid and validation scripts for a synthetic architecture case. It does not process production data or provide a deployed service.
 
-## Reporting a vulnerability
+Security fixes are supported on the default branch. Public examples must remain synthetic and must not contain real client, employee, supplier or operational information.
 
-Please do not open a public issue for suspected vulnerabilities or accidental
-secret exposure. Use GitHub private vulnerability reporting if enabled, or
-contact the repository owner through the GitHub profile.
+## Report A Problem
 
-Include:
+Do not open a public issue for a suspected secret, private architecture detail or exploitable workflow problem. Use GitHub private vulnerability reporting when available, or contact the repository owner through the GitHub profile.
 
-- affected document, template, diagram, or workflow;
-- reproduction steps or location;
-- potential impact;
-- any safe remediation suggestion.
+Include the affected file or workflow, reproduction detail, likely impact and a safe remediation suggestion. Do not include a live credential or sensitive source record in the report.
 
-## Data handling
+## Data Boundary
 
-Only synthetic examples should be committed. Do not submit real client names,
-internal process maps, governance documents, meeting packs, credentials, or
-protected operational details.
+Do not submit real system names, internal URLs, tenant identifiers, account IDs, credentials, network routes, incident records, meeting notes or copied organisation diagrams. The validator checks common local path and secret patterns, but human review remains necessary because sensitive context can appear as ordinary prose.

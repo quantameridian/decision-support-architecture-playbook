@@ -1,47 +1,28 @@
-# Security Posture
+# Repository Security Posture
 
 ## Scope
 
-This is a public documentation-led architecture playbook. It must be safe for
-full public review and must not contain client names, employer material, internal
-process diagrams, private meeting notes, real system inventories, or confidential
-operating-model details.
+The repository publishes a synthetic architecture case. Its largest direct risk is disclosure through apparently harmless prose, diagrams, filenames or copied examples. No production secrets are required to run the checks.
 
-## Current Controls
+## Source Controls
 
-- GitHub Actions CI uses read-only repository contents permission.
-- CodeQL scans the Python validation script.
-- OpenSSF Scorecard runs on the public repository and uploads SARIF results.
-- Dependabot version updates are configured for GitHub Actions.
-- The repository validator checks required docs, Mermaid diagrams, and local links.
-- Security reporting instructions are documented in `SECURITY.md`.
+- GitHub workflow permissions default to read only contents.
+- Action dependencies are pinned to full commit hashes.
+- CodeQL analyses the Python validator.
+- OpenSSF Scorecard runs on the default branch and uploads SARIF.
+- Dependabot covers GitHub Actions, npm and Python dependencies.
+- The validator rejects common credential markers, local user paths and retired internal review files.
+- Mermaid and YAML are parsed rather than accepted by filename.
+- Generated traceability evidence must match the catalogue in CI.
 
-## Public Documentation Boundary
+## Content Review
 
-Architecture documents can leak sensitive information even when they contain no
-code. Before committing, review every document, diagram, and template for:
+Before publication, inspect documents and diagrams for real organisation names, internal systems, network routes, tenant identifiers, ticket numbers, security gaps, personal details, meeting records and copied operating procedures. Automated matching cannot recognise every sensitive inference.
 
-- client, employer, supplier, or stakeholder names;
-- real system names, internal URLs, ticket IDs, and platform identifiers;
-- security-control gaps copied from a real organisation;
-- non-public operating procedures or escalation routes;
-- meeting notes, action owners, or incident details;
-- screenshots or diagrams copied from internal tools.
+## Repository Settings
 
-## GitHub Settings To Keep Enabled
-
-These controls live in GitHub repository settings rather than source files:
-
-- secret scanning and push protection;
-- Dependabot alerts and Dependabot security updates;
-- branch protection or repository rulesets for `main`;
-- required CI checks before merging;
-- blocked force pushes and branch deletion;
-- default workflow token permission set to read-only.
+Keep secret scanning, push protection, Dependabot alerts and security updates enabled. Protect `main` with required CI and CodeQL checks, blocked force pushes and review before merge. Keep the default workflow token read only.
 
 ## Residual Risk
 
-This repository does not implement a production platform and does not prove
-security architecture delivery. Its main public risk is information leakage
-through narrative documents and diagrams. Treat all committed examples as
-synthetic, generic, and intentionally non-client.
+Pinned dependencies and scanning reduce common repository risk but do not make a public document set non sensitive. The synthetic case should be reviewed as if every committed line will be indexed permanently. The logical security design in [Security Architecture](11-security-architecture.md) is not evidence of a deployed control.

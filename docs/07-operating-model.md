@@ -1,205 +1,67 @@
 # Operating Model
 
-## Purpose
+## Accountabilities
 
-The operating model explains how people maintain and use the reporting architecture after the first report or dashboard is built.
-
-A controlled decision-support system needs more than a source-to-output map. It needs clear ownership, review cadence, quality responsibilities, escalation routes, change control, and handover material. Without those elements, reporting can depend on one analyst, one spreadsheet, or one informal meeting routine.
-
-This document defines a practical operating model for a generic reporting process using safe, non-client context.
-
-## Operating Model Principles
-
-- Every source, KPI, control, output, and action should have an owner.
-- The review rhythm should be written down before the report is relied on.
-- Data-quality issues should be logged, prioritised, assigned, and closed with evidence.
-- KPI and report changes should be approved rather than made silently.
-- Handover material should allow another person to run or review the process.
-- The reporting process should make caveats visible instead of hiding uncertainty.
-
-## Core Roles
-
-| Role | Main responsibility | Typical evidence maintained |
+| Role | Accountable for | Cannot delegate without record |
 | --- | --- | --- |
-| Source data owner | Maintains source fields, confirms field meaning, and corrects source issues | Source owner list, correction log, field definitions |
-| KPI definition owner | Approves calculation logic, inclusion rules, exclusions, targets, and caveats | KPI dictionary and change record |
-| Reporting owner | Coordinates the reporting cycle and publishes the output | Refresh note, caveat log, publication checklist |
-| Analytics or BI owner | Maintains transformations, semantic model logic, DAX/SQL, and model documentation | Model documentation, versioned logic, test results |
-| Reporting assurance owner | Defines quality checks and reviews exception severity before publication | Rule catalogue, exception register, readiness summary |
-| Review forum owner | Runs the management review and confirms decisions, actions, and escalations | Agenda, decision record, action log |
-| Action owner | Completes an agreed follow-up action and provides closure evidence | Action update, due date, closure evidence |
-| Handover owner | Keeps operating documentation current and confirms coverage during role changes | Handover pack, owner rota, known failure points |
+| Decision Owner | Forum decision, priority and acceptance of material caveats | Publication against a blocker |
+| Service Owner | End to end service health, recovery and evidence retention | RTO, RPO and operating risk acceptance |
+| Information Owner | Classification, permitted fields and retention | Sensitive field approval |
+| Source Owner | Source meaning, quality and delivery | Correction of authoritative records |
+| Platform Owner | Controlled receipt, runtime platform and service identities | Platform release and privileged runtime access |
+| KPI Owner | Definition, target and interpretation | Semantic approval |
+| Reporting Assurance Owner | Quality rules, severity and readiness | Readiness outcome |
+| Analytics Engineering Owner | Reporting mart, lineage and data contracts | Transformation release |
+| BI Owner | Semantic model, report performance and access rule implementation | Model release evidence |
+| Security Owner | Threat treatment and access assurance | Security exception acceptance |
+| Identity Owner | Authentication integration, group lifecycle and revocation | Identity policy and group control |
+| Report Owner | Cycle coordination, publication and caveat display | Named report version approval |
 
-In a small team, one person may cover several roles. The important point is that the responsibilities are explicit.
+## RACI
 
-## Reporting Ownership Model
+`A` is accountable, `R` performs the work, `C` is consulted and `I` is informed.
 
-Ownership should be assigned at four levels.
+| Activity | Decision | Service | Source | KPI | Assurance | Engineering | BI | Security | Report |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Confirm source contract | I | C | A/R | C | C | C | I | C | I |
+| Approve KPI definition | C | I | C | A | C | R | R | I | I |
+| Run quality gate | I | I | C | C | A | R | I | I | I |
+| Decide readiness | C | I | C | C | A/R | I | I | C | C |
+| Approve publication | I | C | I | C | C | I | R | I | A |
+| Accept material caveat | A | C | C | C | R | I | I | C | C |
+| Grant detail access | I | C | I | I | I | I | R | A | I |
+| Run recovery exercise | I | A | C | I | C | R | R | C | C |
+| Record decisions and actions | A | I | I | I | I | I | I | I | R |
 
-| Ownership level | What is owned | Why it matters |
+## Monthly Cycle
+
+| Time | Activity | Exit evidence |
 | --- | --- | --- |
-| Source ownership | Source extract, tracker, table, fields, update timing | Prevents unclear correction routes when data is wrong or late |
-| Definition ownership | KPI meaning, filters, targets, caveats, approved changes | Prevents the same KPI being calculated differently across reports |
-| Build ownership | Transformation logic, semantic model, report structure, refresh path | Prevents hidden logic and unsupported manual changes |
-| Decision ownership | Review decisions, priorities, escalations, action closure | Prevents dashboards becoming passive status reports |
+| Prior month | Confirm material definition, source and access changes | Approved change record or no change statement |
+| First working day | Receive source and validate provenance | `EVD-01` |
+| First to second working day | Run controls, correct source and issue readiness | `EVD-02`, `EVD-03` |
+| Second working day | Refresh model, run access and performance checks | `EVD-05`, `EVD-11` |
+| Third working day before 09:00 | Approve and publish named report version | `EVD-07` |
+| Review forum | Agree decisions, actions, owners and dates | `EVD-08` |
+| After review | Route corrections and update control backlog | Updated action register |
 
-The owner list should include role names rather than depending only on named individuals. Named contacts can be added for the current cycle, but the architecture should survive role changes.
+## Failure And Escalation
 
-## Review Cadence
-
-The review cadence should separate preparation, publication, decision review, and follow-up.
-
-| Timing | Activity | Owner | Output |
-| --- | --- | --- | --- |
-| Before cycle starts | Confirm reporting period, source cut-off, known definition changes, and required outputs | Reporting owner | Cycle checklist |
-| Source receipt | Confirm source extracts have arrived and match expected structure | Source data owner and reporting owner | Source receipt note |
-| Preparation | Run quality checks, refresh models, review exceptions, and prepare caveats | Analytics or BI owner and reporting assurance owner | Exception register and readiness summary |
-| Pre-publication | Confirm high-severity issues, caveats, and any hold decisions | Reporting owner and decision owner | Publication approval or escalation note |
-| Review meeting | Discuss KPI movement, exceptions, decisions, actions, owners, and due dates | Review forum owner | Decision and action log |
-| After review | Update action status, correct source data, close exceptions, and record changes | Action owners and source data owners | Updated action log and closure evidence |
-| Periodic governance | Review KPI dictionary, quality rules, owner list, and handover pack | KPI owner, assurance owner, reporting owner | Updated governance record |
-
-## Data Quality Responsibilities
-
-Data quality should be treated as a shared control, not a task left to the report builder.
-
-| Quality activity | Responsible role | Review point |
+| Failure | First response | Escalation time |
 | --- | --- | --- |
-| Confirm required source fields | Source data owner | Before the reporting cycle |
-| Maintain quality rule catalogue | Reporting assurance owner | Periodic governance review |
-| Run quality checks | Analytics or BI owner | During preparation |
-| Review high-severity exceptions | Reporting assurance owner | Before publication |
-| Correct source data | Source data owner | After issue assignment |
-| Decide whether to publish with caveats | Decision owner and reporting owner | Pre-publication |
-| Close exceptions with evidence | Action owner or source data owner | After review |
-| Review repeated failure patterns | Reporting assurance owner and source data owner | Periodic governance review |
-
-Quality checks should not automatically block every output. The operating model should distinguish between:
-
-- issues that prevent publication;
-- issues that allow publication with a visible caveat;
-- issues that can be corrected after review;
-- issues that require a definition or source-process change.
-
-## Escalation Route
-
-The escalation route should be short enough to use in a real reporting cycle.
-
-| Trigger | Escalation owner | Expected response |
-| --- | --- | --- |
-| Source extract missing or late | Reporting owner | Confirm revised timing or report caveat |
-| Required field missing from source | Source data owner | Correct source or approve temporary caveat |
-| KPI definition disputed | KPI definition owner | Confirm approved logic before next formal pack |
-| High-severity exception affects headline KPI | Reporting assurance owner and decision owner | Decide whether to hold, caveat, or publish |
-| High-risk item has no action owner | Review forum owner | Assign owner during review |
-| Repeated manual correction | Analytics or BI owner | Convert correction into documented transformation or source fix |
-| Report user challenges the number | Reporting owner | Trace source, definition, control result, and caveat |
-| Change would break trend comparison | KPI definition owner | Approve effective date and restatement approach |
-
-Escalations should be logged with owner, date raised, decision, action, due date, and closure evidence.
+| Extract not received | Platform Owner checks transfer; Source Owner confirms availability | By 12:00 on first working day |
+| Quality blocker | Assurance Owner rejects release and routes exceptions | Immediately after gate result |
+| Mart or model refresh failure | Engineering or BI Owner retries from last accepted evidence | Escalate to Service Owner after one hour |
+| Access test failure | Security Owner blocks release of detail | Immediate |
+| Report unavailable at deadline | Service Owner invokes approved continuity output | Before publication deadline |
+| Action remains overdue | Decision Owner reviews priority and accountability | Next forum or sooner for high impact action |
 
 ## Change Control
 
-KPI, source, and report changes should be visible because they can change interpretation.
+Routine changes include corrected source values, non semantic report wording and owner substitutions within an approved role. Material changes include grain, key, KPI meaning, source authority, trust boundary, access scope, retention, recovery target or component responsibility.
 
-### Changes Requiring Approval
+Material changes need impact analysis against requirements, risks, controls and evidence. Accepted ADRs are not edited to make history look cleaner; a new record supersedes the old decision.
 
-- KPI formula changes.
-- Inclusion or exclusion rule changes.
-- New target thresholds.
-- Source field replacement or removal.
-- Transformation logic that changes historic results.
-- New report page or retired report page.
-- Change to refresh cadence or reporting cut-off.
-- Material caveat added or removed.
+## Service Review
 
-### Change Record
-
-Each approved change should capture:
-
-| Field | Purpose |
-| --- | --- |
-| Change ID | Stable reference for audit and handover |
-| Requested by | Role or forum requesting the change |
-| Change type | KPI, source, model, report, quality rule, cadence, or handover |
-| Description | Plain-language change |
-| Reason | Why the change is needed |
-| Impact | Measures, reports, users, and historic periods affected |
-| Approval owner | Role accountable for accepting the change |
-| Implementation owner | Role accountable for making the change |
-| Effective date | Reporting period from which the change applies |
-| Restatement decision | Whether historic results are recalculated, marked as not comparable, or left unchanged |
-| Evidence | Link or note confirming the change was implemented and reviewed |
-
-Changes do not need a heavy process, but they do need a trail that a reviewer can follow.
-
-## Analyst, Owner, Reviewer, and Decision-Maker Interaction
-
-The operating model should make the hand-offs clear.
-
-```mermaid
-flowchart LR
-    A["Source data owner"] --> B["Analyst or BI owner"]
-    B --> C["Reporting assurance owner"]
-    C --> D["Reporting owner"]
-    D --> E["Review forum"]
-    E --> F["Decision owner"]
-    F --> G["Action owner"]
-    G --> A
-    C -. "quality caveats" .-> E
-    F -. "definition decisions" .-> B
-```
-
-Expected interaction pattern:
-
-1. Source data owner confirms data and resolves source issues.
-2. Analyst or BI owner prepares model/output and runs checks.
-3. Reporting assurance owner reviews exceptions and readiness.
-4. Reporting owner publishes the pack with visible caveats.
-5. Review forum uses the output to agree decisions and actions.
-6. Decision owner resolves priority and definition disputes.
-7. Action owners close follow-up actions with evidence.
-8. Lessons feed back into source quality, rules, definitions, or model logic.
-
-## Handover Model
-
-The handover model should reduce dependence on individual memory.
-
-Minimum handover pack:
-
-- reporting purpose and audience;
-- owner list and deputies;
-- source-to-output map;
-- KPI dictionary;
-- data-quality rule catalogue;
-- refresh and publication checklist;
-- exception register structure;
-- escalation route;
-- change-control log;
-- review cadence and forum details;
-- known failure points;
-- open actions and unresolved caveats;
-- recent definition changes;
-- file locations or repository structure;
-- instructions for updating diagrams and templates.
-
-Handover should be reviewed when:
-
-- the reporting owner changes;
-- a source system or extract changes;
-- KPI logic changes materially;
-- the reporting cycle moves from prototype to routine use;
-- a repeated issue shows that current documentation is insufficient.
-
-## Operating Model Acceptance Criteria
-
-The operating model is ready when a reviewer can answer:
-
-- Who owns the source data?
-- Who owns each KPI definition?
-- Who runs and reviews data-quality checks?
-- What happens if the data is not ready?
-- Who approves a KPI or report change?
-- How are decisions and actions captured?
-- How is closure evidenced?
-- Could someone else run or review the process from the handover pack?
+Quarterly service review samples one retained cycle, exercises recovery, reviews access membership, checks recurring caveats, reassesses residual risks and confirms that owners can still perform the runbook. Production approval would also need cost, capacity, support and incident evidence that this logical design does not yet provide.

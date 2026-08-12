@@ -1,0 +1,42 @@
+flowchart LR
+    subgraph Z1["Source zone"]
+        Source["CMP-01 Operational Work System"]
+    end
+    subgraph Z2["Controlled data zone"]
+        Landing[("CMP-02 Landing Store")]
+    end
+    subgraph Z3["Processing zone"]
+        Gate["CMP-03 Quality Gate"]
+    end
+    subgraph Z4["Reporting zone"]
+        Mart[("CMP-04 Reporting Mart")]
+        Model["CMP-05 Semantic Model"]
+    end
+    subgraph Z5["Consumption zone"]
+        Report["CMP-06 Management Report"]
+        User["Authorised reviewer"]
+    end
+    subgraph Z6["Governance zone"]
+        Register["CMP-07 Action Register"]
+        Evidence[("CMP-08 Evidence Store")]
+    end
+    subgraph Z7["Operations zone"]
+        Observe["CMP-10 Observability Service"]
+    end
+    Identity["CMP-09 Identity Provider"]
+
+    Source -->|"Authenticated extract"| Landing
+    Landing -->|"Read only batch"| Gate
+    Gate -->|"Accepted atomic load"| Mart
+    Mart -->|"Read only refresh"| Model
+    Identity -->|"User and group claims"| Model
+    Model -->|"Filtered query"| Report
+    Report -->|"Authorised session"| User
+    User -->|"Named decision"| Register
+    Gate -->|"Append only evidence"| Evidence
+    Report -->|"Approved publication record"| Evidence
+    Landing -. "Restricted health event" .-> Observe
+    Gate -. "Restricted health event" .-> Observe
+    Mart -. "Restricted health event" .-> Observe
+    Model -. "Restricted health event" .-> Observe
+    Report -. "Restricted health event" .-> Observe

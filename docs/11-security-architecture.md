@@ -1,102 +1,57 @@
 # Security Architecture
 
-## Purpose
+## Security Context
 
-This document defines the security architecture considerations for a controlled
-decision support reporting process. It is generic and synthetic. It does not
-describe a real client, employer, platform, network, or protected environment.
+The reporting model contains operational record detail classified as `Official` for this synthetic case. It excludes special category data and direct personal contact details. The main security objectives are to preserve report integrity, restrict detail by service area, retain decision evidence and recover without relying on personal files or credentials.
 
-Reporting architecture must cover classification, access, auditability, and
-public and private boundaries. A data flow diagram is not enough.
+The [trust boundary view](../diagrams/trust-boundaries.mmd) separates source, controlled data, processing, reporting, consumption and governance zones. An arrow identifies a data or identity flow, not automatic trust.
 
-## Security Principles
+## Protected Assets
 
-- Classify data before it enters the reporting route.
-- Keep least privilege access aligned to business roles.
-- Separate source ownership, transformation ownership, reporting ownership, and decision ownership.
-- Make sensitive data exclusions explicit before publication.
-- Log manual changes, publication approvals, and accepted caveats.
-- Avoid copying protected data into unmanaged spreadsheets or public repositories.
-- Treat diagrams and operating model documents as potentially sensitive.
+| Asset | Security need |
+| --- | --- |
+| Source extract | Confidentiality, integrity, provenance and controlled retention |
+| KPI definitions | Integrity, approval history and availability |
+| Reporting mart | Integrity, least privilege and recoverability |
+| Service area mapping | Confidentiality, integrity and prompt revocation |
+| Management report | Availability, correct access and version identity |
+| Readiness and approval evidence | Integrity, attribution and 13 month retention |
+| Decision and action record | Integrity, attribution and controlled change history |
 
-## Information Classification
+## Threat Analysis
 
-| Classification | Example in reporting context | Handling expectation |
-| --- | --- | --- |
-| Public | Generic portfolio templates and synthetic examples | Safe for public GitHub after review |
-| Internal | Operating cadence, generic process ownership, non sensitive reporting notes | Keep inside organisation repositories or workspaces |
-| Confidential | Client names, detailed performance issues, named action owners, sensitive metrics | Restrict access, redact in review packs, avoid public screenshots |
-| Restricted | Credentials, tenant IDs, security gaps, privileged access maps, protected operational details | Never place in public docs; use approved secure systems only |
+| Threat | Boundary or asset | Effect | Primary treatment | Residual concern |
+| --- | --- | --- | --- | --- |
+| Forged or substituted extract | `INT-01`, Landing Store | False management result | Service identity, checksum and immutable receipt | Compromised source can still supply plausible bad data |
+| Unapproved data correction | Quality Gate or mart | Lost lineage and biased result | Source correction route, atomic load and evidence | Emergency business correction needs a governed process |
+| KPI logic changed without approval | Semantic Model | Trend and decision inconsistency | Versioned definition, release review and ADR | Reviewer may approve without understanding impact |
+| User sees another service area | `INT-05`, report detail | Confidentiality breach | Identity filtering, deny unmapped users and negative tests | Export and downstream reuse need platform testing |
+| Privileged service identity is abused | Processing and reporting zones | Broad data compromise | Separate managed identities and least privilege | Platform role design is not selected here |
+| Quality or access failure is not detected | Evidence and monitoring | Unsafe publication continues | Observability Service, readiness gate, test evidence and alert ownership | Alert fatigue and incomplete logs require operational review |
+| Evidence is changed or deleted | Evidence Store | Audit and recovery failure | Append only write, retention and quarterly sample | Legal hold and immutable storage product are not selected |
+| Report service is unavailable | Consumption zone | Missed decision deadline | Recovery target and continuity output | No live resilience test exists |
 
-## Security Boundary Diagram
+## Access Model
 
-The target architecture should distinguish between public portfolio material,
-controlled reporting assets, and restricted operational data.
+Users authenticate through the Identity Provider. Managed group membership maps a user to one or more service areas. The Semantic Model applies the mapping to detailed records and returns no detail for an unmapped identity. [ADR-003](../decisions/ADR-003-semantic-model-access.md) records why visual filters and report copies were rejected.
 
-```mermaid
-flowchart LR
-    A["Operational source systems"] --> B["Controlled ingestion or extract"]
-    B --> C["Transformation and quality controls"]
-    C --> D["Semantic model or reporting mart"]
-    D --> E["Management report"]
-    E --> F["Review forum and action log"]
+Direct mart access is restricted to service identities and approved support roles. Report access does not imply mart access. Export, subscription, sharing and downstream analysis settings are part of the release review because they can bypass the expected user journey.
 
-    G["Public portfolio docs"] -. "synthetic examples only" .-> C
-    H["Restricted credentials and tenant config"] -. "never public" .-> B
-    H -. "never public" .-> D
-```
+## Privileged Operation
 
-## Control Placement
+- Service identities are non personal and scoped to one responsibility.
+- Landing read, mart write, semantic refresh and evidence write use separate permissions.
+- Production configuration changes require peer review and version history.
+- Break glass access is time limited, logged and reviewed after use.
+- Secrets are stored outside source and documentation.
+- Access membership and unused privilege are reviewed quarterly.
 
-| Control point | Security purpose | Evidence to maintain |
-| --- | --- | --- |
-| Source access approval | Confirm who can extract or view source data | Access owner and approval record |
-| Data classification | Confirm fields are safe for intended audience | Classification note and redaction rules |
-| Transformation access | Limit who can alter business logic | Repository permissions and change records |
-| Quality exception review | Prevent misleading publication | Exception register and caveat decision |
-| Semantic model access | Enforce role based visibility | RLS and access model plus test evidence |
-| Publication approval | Confirm pack is safe and caveated | Publication checklist |
-| Handover | Avoid undocumented privileged access | Owner list, deputies, and secure credential route |
+## Detection And Response
 
-## Defence and Regulated Environment Considerations
+Security relevant events include failed authentication, denied detail queries, role changes, unusual export, repeated readiness override attempts, source checksum mismatch and evidence deletion attempts. Alert ownership and response time are set during platform design.
 
-For secure or regulated environments, the architecture should also consider:
+A suspected integrity or confidentiality incident blocks normal publication until the Security Owner and Service Owner establish scope. Recovery uses known accepted evidence, followed by access and KPI verification before a new approval.
 
-- offline or controlled network operation;
-- approved artifact promotion between environments;
-- no long lived credentials in source code;
-- separation of development, test, and production workspaces;
-- audit logging for refresh, publication, access changes, and definition changes;
-- redaction of sensitive operational details from executive outputs;
-- retention and disposal rules for extracts and generated packs;
-- named accountable owners for access review and exception acceptance.
+## Assurance Boundary
 
-## Public Repository Boundary
-
-This repo may include:
-
-- generic security architecture patterns;
-- synthetic diagrams;
-- template checklists;
-- public safe control language.
-
-This repo must not include:
-
-- real system names;
-- internal URLs;
-- tenant IDs;
-- security group names;
-- customer or employer data;
-- live access control exports;
-- incident details from a real organisation.
-
-## Acceptance Criteria
-
-The security architecture is ready for review when a reader can answer:
-
-- What data classification applies before publication?
-- Which roles can view or alter the reporting route?
-- Where are credentials and tenant settings excluded?
-- Which controls prevent misleading or unsafe publication?
-- How are access, caveats, and change approvals evidenced?
-- What extra controls apply in secure or regulated environments?
+This threat analysis establishes context and possible treatments. It is not a penetration test, privacy assessment or formal accreditation. Platform selection must add product specific attack paths, logging coverage, data location, supplier access, patching, vulnerability management and incident integration.

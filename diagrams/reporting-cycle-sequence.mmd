@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant SO as Source Owner
+    participant LS as Landing Store
+    participant QG as Quality Gate
+    participant RO as Report Owner
+    participant DO as Decision Owner
+    participant ES as Evidence Store
+
+    SO->>LS: Submit extract before cut off
+    LS->>ES: Record checksum and timestamps
+    LS->>QG: Provide immutable extract
+    QG->>QG: Run schema, key and business checks
+    QG->>ES: Store quality result
+    alt Material blocker found
+        QG-->>RO: Reject publication and route exceptions
+        RO-->>SO: Request correction
+        SO->>LS: Submit corrected extract
+    else Ready or accepted caveat
+        QG-->>RO: Issue readiness result
+        RO->>ES: Record approval and report version
+        RO->>DO: Publish governed review output
+        DO->>ES: Record decisions, actions and due dates
+    end

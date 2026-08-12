@@ -1,0 +1,26 @@
+flowchart LR
+    Source["CMP-01<br/>Operational Work System"]
+    Landing[("CMP-02<br/>Controlled Landing Store")]
+    Gate["CMP-03<br/>Quality Gate"]
+    Mart[("CMP-04<br/>Reporting Mart")]
+    Model["CMP-05<br/>Semantic Model"]
+    Report["CMP-06<br/>Management Report"]
+    Register["CMP-07<br/>Decision and Action Register"]
+    Evidence[("CMP-08<br/>Evidence Store")]
+    Identity["CMP-09<br/>Identity Provider"]
+    Observe["CMP-10<br/>Observability Service"]
+
+    Source -->|"INT-01 daily CSV"| Landing
+    Landing -->|"INT-02 verified batch"| Gate
+    Gate -->|"INT-03 accepted records"| Mart
+    Mart -->|"INT-04 model refresh"| Model
+    Model -->|"INT-05 governed query"| Report
+    Report -->|"INT-06 review outcome"| Register
+    Identity -->|"INT-07 identity claims"| Model
+    Gate -->|"INT-08 quality evidence"| Evidence
+    Report -->|"INT-09 publication evidence"| Evidence
+    Landing -. "INT-10 receipt health" .-> Observe
+    Gate -. "INT-11 quality health" .-> Observe
+    Mart -. "INT-12 load health" .-> Observe
+    Model -. "INT-13 model health" .-> Observe
+    Report -. "INT-14 report health" .-> Observe
