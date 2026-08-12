@@ -8,7 +8,7 @@ Security fixes are supported on the default branch. Public examples must remain 
 
 ## Report A Problem
 
-Do not open a public issue for a suspected secret, private architecture detail or exploitable workflow problem. Use GitHub private vulnerability reporting when available, or contact the repository owner through the GitHub profile.
+Do not open a public issue for a suspected secret, private architecture detail or exploitable workflow problem. Use [GitHub private vulnerability reporting](https://github.com/quantameridian/decision-support-architecture-playbook/security/advisories/new), or contact the repository owner through the GitHub profile.
 
 Include the affected file or workflow, reproduction detail, likely impact and a safe remediation suggestion. Do not include a live credential or sensitive source record in the report.
 
